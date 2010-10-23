@@ -41,9 +41,10 @@ Mozcの辞書を用いたスペル訂正エンジンです。
 """
 def application(environ, start_response):
     status = '200 OK'
-    query = environ['REQUEST_URI'].split('/',3)[3]
     output = html
-    if len(query) > 0:
+    request = environ['REQUEST_URI'].split('/')
+    if len(request) == 4 and len(request[3]) > 0:
+        query = request[3]
         query = query.split("=")[1]
         query = unquote(query)
         result = corrector.correct(query, 2)
