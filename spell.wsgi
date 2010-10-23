@@ -18,7 +18,7 @@ def application(environ, start_response):
     result = corrector.correct(query, 2)
     output = ""
     for i in result[:50]:
-        output += str(i)
+        output += i.word.encode('utf-8') + "\n"
     response_headers = [('Content-type', 'text/plain'),
                         ('Content-Length', str(len(output)))]
     start_response(status, response_headers)
