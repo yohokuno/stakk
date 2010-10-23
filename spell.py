@@ -17,7 +17,7 @@ class Entry:
     def __str__(self):
         return format((self.word, self.yomi, self.distance, self.cost, self.rank))
 
-class SpellingCorrector:
+class SpellCorrector:
     #initialize
     def __init__(self, base, connection):
         self.base = base
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     parser.add_option("-c", dest="connection", default="data/mozc-connection.txt")
     parser.add_option("-t", dest="threshold", type="int", default=2)
     (options, args) = parser.parse_args()
-    corrector = SpellingCorrector(options.base, options.connection)
+    corrector = SpellCorrector(options.base, options.connection)
 
     #input from stdin
     for line in stdin:
