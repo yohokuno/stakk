@@ -11,15 +11,46 @@ base    = "http://localhost:54633/fuzzy/"
 connection = directory + "/data/mozc-connection.txt"
 corrector = SpellCorrector(base, connection)
 
+html = """
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>スペル訂正のテスト</title>
+<style>
+.nokuno {
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+.nokuno td {
+    padding: 3px 8px;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+</style>
+</head>
+<body>
+<h1><a href="./">スペル訂正のテスト</a></h1>
+<p>
+Mozcの辞書を用いたスペル訂正エンジンです。
+以下のフォームにひらがなを入力してください。
+</p>
+<form>
+<input type="text" name="q"/>
+<input type="submit" value="訂正">
+</form> 
+"""
 def application(environ, start_response):
     status = '200 OK'
     query = environ['REQUEST_URI'].split('/',3)[3]
-    query = unquote(query)
-    result = corrector.correct(query, 2)
-    output = ""
-    for i in result[:50]:
-        output += i.word.encode('utf-8') + "\n"
-    response_headers = [('Content-type', 'text/plain'),
+    output = html
+    if len(query) > 0:
+        query = query.split("=")[1]
+        query = unquote(query)
+        result = corrector.correct(query, 2)
+        for i in result[:50]:
+            output += i.word.encode('utf-8') + "<br>\n"
+    output += "</body></html>"
+    response_headers = [('Content-type', 'text/html'),
                         ('Content-Length', str(len(output)))]
     start_response(status, response_headers)
 
