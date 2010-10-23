@@ -6,6 +6,7 @@ from urllib2 import unquote
 directory = "/home/nokuno/stakk"
 path.append(directory)
 from spell import SpellCorrector
+from format import format
 
 base    = "http://localhost:54633/fuzzy/"
 connection = directory + "/data/mozc-connection.txt"
@@ -13,7 +14,7 @@ corrector = SpellCorrector(base, connection)
 
 def application(environ, start_response):
     status = '200 OK'
-    query = environ['QUERY_STRING'].split('=',1)[1]
+    query = environ['REQUEST_URI'].split('/',3)[3]
     query = unquote(query)
     result = corrector.correct(query, 2)
     output = ""
