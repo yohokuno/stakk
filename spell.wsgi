@@ -29,7 +29,7 @@ table td {
 </style>
 </head>
 <body>
-<h1><a href="spell">スペル訂正のテスト</a></h1>
+<h1><a href="spell">スペル訂正のデモ</a></h1>
 <p>
 Mozcの辞書を用いたスペル訂正エンジンです。<br>
 以下のフォームにひらがなで間違った単語を入力してください。<br>
