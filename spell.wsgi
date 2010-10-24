@@ -15,16 +15,22 @@ html = """
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>スペル訂正のテスト</title>
+<title>スペル訂正のデモ</title>
 <style>
 table {
-    border-top: 1px solid #ccc;
-    border-left: 1px solid #ccc;
+    border: 0px;
+}
+table th {
+    padding: 3px 8px;
+    border-width: 1px 1px 1px 1px;
+    border-style: solid;
+    border-color: #ccc;
 }
 table td {
     padding: 3px 8px;
-    border-bottom: 1px solid #ccc;
-    border-right: 1px solid #ccc;
+    border-width: 0px 1px 1px 1px;
+    border-style: solid;
+    border-color: #ccc;
 }
 </style>
 </head>
