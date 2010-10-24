@@ -19,13 +19,10 @@ struct Server {
     //parse option
     void parse_option(int argc, char *argv[]) {
         int result;
-        while((result = getopt(argc, argv, "f:m:p:")) != -1) {
+        while((result = getopt(argc, argv, "f:p:")) != -1) {
             switch(result) {
                 case 'f':
                     filename = optarg;
-                    break;
-                case 'm':
-                    mode = optarg;
                     break;
                 case 'p':
                     port = atoi(optarg);
