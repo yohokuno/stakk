@@ -1,3 +1,6 @@
+#ifndef TRIE_H
+#define TRIE_H
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -165,4 +168,6 @@ struct ListTrieWide {
         return result;
     }
 };
+
+#endif
 

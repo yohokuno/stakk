@@ -1,3 +1,5 @@
+#ifndef UTIL_H
+#define UTIL_H
 
 //wide to multi
 string narrow(wstring src) {
@@ -47,3 +49,6 @@ vector<string> split(string s, char c) {
     v.push_back(s);
     return v;
 }
+
+#endif
+
