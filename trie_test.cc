@@ -1,3 +1,4 @@
+#include "common.h"
 #include "trie.h"
 
 int main(int argc, char *argv[]) {
