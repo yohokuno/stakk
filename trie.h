@@ -1,10 +1,5 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <list>
-#include <map>
-using namespace std;
+#ifndef TRIE_H
+#define TRIE_H
 
 struct ListTrieWide {
     struct Entry {
@@ -166,3 +161,4 @@ struct ListTrieWide {
     }
 };
 
+#endif
