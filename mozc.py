@@ -122,6 +122,7 @@ if __name__ == '__main__':
     parser.add_option("-o", dest="output", action="store_true")
     (options, args) = parser.parse_args()
     converter = Converter(options.dictionary, options.connection)
+    print 'input kana: '
 
     #input from stdin
     for line in stdin:
