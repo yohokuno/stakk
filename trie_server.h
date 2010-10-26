@@ -1,9 +1,12 @@
 #ifndef TRIE_SERVER_H
-#define TRIE_SERVER_H
+#define TRIE_SERVER
 
 struct TrieServer : public Server {
-    string filename;
-    ListTrieWide trie;
+    string filename, mode;
+    ListTrieWide &trie;
+
+    //init trie reference
+    TrieServer(ListTrieWide &trie_) : trie(trie_) {}
 
     //parse option
     void parse_option(int argc, char *argv[]) {
@@ -19,41 +22,19 @@ struct TrieServer : public Server {
             }
         }
     }
-    //load trie
-    void load_trie() {
-        if (filename.length() > 0) {
-            wifstream ifs(filename.c_str());
-            wstring line, input;
-            wcout << "inserting.." << endl;
-            while (getline(ifs, line)) {
-                size_t pos = line.find('\t');
-                if (pos == wstring::npos)
-                    continue;
-                wstring key = line.substr(0, pos);
-                wstring value = line.substr(pos+1);
-                trie.insert(key, value);
-            }
-            wcout << "input kana:" << endl;
-        } else {
-            trie.insert(L"tree", L"value01");
-            trie.insert(L"trie", L"value02");
-            trie.insert(L"try", L"value03");
-            trie.insert(L"tree", L"value04");
-            trie.insert(L"tr", L"value05");
-            trie.insert(L"trees", L"value06");
-            trie.insert(L"tere", L"value06");
-            trie.display();
-        }
 
+    //parse request path
+    wstring parse_path(vector<string> &path) {
+        if (path.size() != 3)
+            return L"";
+        mode = path[1];
+        return widen(urldecode(path[2]));
     }
 
     //get result
     virtual wstring get_result(vector<string> path) {
         wstring response = L"";
-        if (path.size() != 3)
-            return L"";
-        string mode = path[1];
-        wstring input = widen(urldecode(path[2]));
+        wstring input = parse_path(path);
         if (mode == "all" || mode == "search") {
             vector<wstring> *result;
             result = trie.search(input);

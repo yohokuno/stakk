@@ -117,8 +117,8 @@ class Converter:
 if __name__ == '__main__':
     #parse options
     parser = OptionParser()
-    parser.add_option("-d", dest="dictionary", default="data/mozc-dictionary.txt")
-    parser.add_option("-c", dest="connection", default="data/mozc-connection.txt")
+    parser.add_option("-d", dest="dictionary", default="data/dictionary.txt")
+    parser.add_option("-c", dest="connection", default="data/connection.txt")
     parser.add_option("-o", dest="output", action="store_true")
     (options, args) = parser.parse_args()
     converter = Converter(options.dictionary, options.connection)
