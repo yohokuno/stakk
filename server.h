@@ -1,3 +1,6 @@
+#ifndef SERVER_H
+#define SERVER_H
+
 struct Server { 
     int port;
 
@@ -93,3 +96,5 @@ struct Server {
         return 0;
     }
 };
+
+#endif
