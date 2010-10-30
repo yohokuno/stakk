@@ -1,8 +1,6 @@
 #ifndef STAKK_H
 #define STAKK_H
 
-#define CONNECTION_SIZE 3033
-
 struct Stakk {
     ListTrieWide &trie;
     unsigned short *connection;
@@ -23,30 +21,8 @@ struct Stakk {
         }
     };
     //initalize
-    Stakk(ListTrieWide &trie_, unsigned short *connection_)
-        : trie(trie_), connection(connection_) {}
-
-    //load connection
-    Stakk(ListTrieWide &trie_, string filename) : trie(trie_) {
-        connection = load_connection(filename);
-    }
-    //load connection
-    static unsigned short *load_connection(string filename) {
-        unsigned short *connection = new unsigned short[CONNECTION_SIZE];
-        ifstream ifs;
-        ifs.open(filename.c_str());
-        string line;
-        getline(ifs, line);
-        while (getline(ifs, line)) {
-            vector<string> splited = split(line, ' ');
-            int lid = atoi(splited[0].c_str());
-            int rid = atoi(splited[1].c_str());
-            int cost = atoi(splited[2].c_str());
-            if (lid != 0) break;
-            connection[rid] = cost;
-        }
-        ifs.close();
-        return connection;
+    Stakk(ListTrieWide &trie_, unsigned short *connection_):trie(trie_) {
+        connection = connection_;
     }
 
     //spell correct

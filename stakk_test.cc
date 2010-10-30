@@ -3,6 +3,8 @@
 #include "trie.h"
 #include "stakk.h"
 
+#define CONNECTION_SIZE 3033
+
 int main(int argc, char *argv[]) {
     //parse option
     int result, threshold = 2;
