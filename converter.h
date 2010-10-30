@@ -1,11 +1,11 @@
-#ifndef MOZC_H
-#define MOZC_H
+#ifndef CONVERTER_H
+#define CONVERTER_H
 
-#define CONNECTION_SIZE 3033
 
-struct Mozc {
+struct Converter {
     ListTrieWide &trie;
     unsigned short *connection;
+    static const int connection_size = 3033;
 
     //lattice node
     struct Node {
@@ -36,22 +36,22 @@ struct Mozc {
     };
 
     //load connection
-    Mozc(ListTrieWide &trie_, string filename) : trie(trie_) {
+    Converter(ListTrieWide &trie_, string filename) : trie(trie_) {
         ifstream ifs;
         ifs.open(filename.c_str());
         string line;
         getline(ifs, line);
-        connection = new unsigned short[CONNECTION_SIZE * CONNECTION_SIZE];
+        connection = new unsigned short[connection_size * connection_size];
         while (getline(ifs, line)) {
             vector<string> splited = split(line, ' ');
             unsigned short lid = atoi(splited[0].c_str());
             unsigned short rid = atoi(splited[1].c_str());
             unsigned short cost = atoi(splited[2].c_str());
-            connection[lid * CONNECTION_SIZE + rid] = cost;
+            connection[lid * connection_size + rid] = cost;
         }
         ifs.close();
     }
-    ~Mozc() {
+    ~Converter() {
         delete[] connection;
     }
     
@@ -90,7 +90,7 @@ struct Mozc {
                 int best_score = -1;
                 int best_index = -1;
                 for (int k = 0; k < lattice[index].size(); k++) {
-                    int pos = lattice[index][k].rid * CONNECTION_SIZE + lattice[i][j].lid;
+                    int pos = lattice[index][k].rid * connection_size + lattice[i][j].lid;
                     int score = lattice[index][k].total + connection[pos];
                     if (best_score == -1 || score < best_score) {
                         best_index = lattice[index][k].index;

@@ -1,10 +1,10 @@
 #include "common.h"
 #include "util.h"
 #include "trie.h"
-#include "mozc.h"
+#include "converter.h"
 #include "server.h"
 #include "trie_server.h"
-#include "mozc_server.h"
+#include "converter_server.h"
 
 int main(int argc, char *argv[]) {
     //parse option
@@ -32,9 +32,9 @@ int main(int argc, char *argv[]) {
     wcout << "loading dictionary" << endl;
     trie.load_dictionary(dictionary);
     wcout << "loading connection" << endl;
-    Mozc mozc(trie, connection);
+    Converter converter(trie, connection);
     wcout << "input query: " << endl;
-    MozcServer server(trie, mozc);
+    ConverterServer server(trie, converter);
     server.port = port;
     result = server.communicate();
 

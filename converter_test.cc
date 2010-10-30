@@ -1,7 +1,7 @@
 #include "common.h"
 #include "util.h"
 #include "trie.h"
-#include "mozc.h"
+#include "converter.h"
 
 int main(int argc, char *argv[]) {
     //parse option
@@ -25,11 +25,11 @@ int main(int argc, char *argv[]) {
     wcout << "loading dictionary" << endl;
     trie.load_dictionary(dictionary);
     wcout << "loading connection" << endl;
-    Mozc mozc(trie, connection);
+    Converter converter(trie, connection);
     wcout << "input query: " << endl;
     wstring line;
     while (getline(wcin, line)) {
-        vector<wstring> result = mozc.convert(line);
+        vector<wstring> result = converter.convert(line);
         for (int i = 0; i < result.size(); i++) {
             wcout << result[i] << " ";
         }

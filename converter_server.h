@@ -1,20 +1,20 @@
-#ifndef MOZC_SERVER_H
-#define MOZC_SERVER_H
+#ifndef CONVERTER_SERVER_H
+#define CONVERTER_SERVER_H
 
-struct MozcServer : public TrieServer {
-    Mozc &mozc;
+struct ConverterServer : public TrieServer {
+    Converter &converter;
 
-    //init trie and mozc references
-    MozcServer(ListTrieWide &trie_, Mozc &mozc_)
-        : TrieServer(trie_), mozc(mozc_) {}
+    //init trie and converter references
+    ConverterServer(ListTrieWide &trie_, Converter &converter_)
+        : TrieServer(trie_), converter(converter_) {}
 
-    //implement mozc
+    //implement converter
     virtual wstring get_result(vector<string> path) {
         wstring response = L"";
 
         if (mode == "convert") {
             wstring input = parse_path(path);
-            vector<wstring> result = mozc.convert(input);
+            vector<wstring> result = converter.convert(input);
             for (int i = 0; i < result.size(); i++) {
                 response += result[i] + L"\n";
             }
