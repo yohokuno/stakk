@@ -1,9 +1,11 @@
 #ifndef STAKK_H
 #define STAKK_H
 
+#define CONNECTION_SIZE 3033
+
 struct Stakk {
     ListTrieWide &trie;
-    short connection[3033];
+    unsigned short *connection;
 
     //result entry
     struct Entry {
@@ -20,9 +22,17 @@ struct Stakk {
             return yomi + L"\t" + word;
         }
     };
+    //initalize
+    Stakk(ListTrieWide &trie_, unsigned short *connection_)
+        : trie(trie_), connection(connection_) {}
 
     //load connection
     Stakk(ListTrieWide &trie_, string filename) : trie(trie_) {
+        connection = load_connection(filename);
+    }
+    //load connection
+    static unsigned short *load_connection(string filename) {
+        unsigned short *connection = new unsigned short[CONNECTION_SIZE];
         ifstream ifs;
         ifs.open(filename.c_str());
         string line;
@@ -36,6 +46,7 @@ struct Stakk {
             connection[rid] = cost;
         }
         ifs.close();
+        return connection;
     }
 
     //spell correct
@@ -43,7 +54,7 @@ struct Stakk {
         ListTrieWide::Entries entries;
         trie.fuzzy_search_ex(input, threshold, entries);
         for (int i = 0; i < entries.size(); i++) {
-            wstring yomi = entries[i].yomi;
+            wstring yomi = entries[i].key;
             int distance = entries[i].distance;
             for (int j = 0; j < entries[i].values.size(); j++) {
                 vector<wstring> splited = split_w(entries[i].values[j], L'\t');
@@ -61,7 +72,7 @@ struct Stakk {
         ListTrieWide::Entries entries;
         trie.predictive_search(input, L"", entries);
         for (int i = 0; i < entries.size(); i++) {
-            wstring yomi = entries[i].yomi;
+            wstring yomi = entries[i].key;
             int length = yomi.length()-input.length();
             for (int j = 0; j < entries[i].values.size(); j++) {
                 vector<wstring> splited = split_w(entries[i].values[j], L'\t');

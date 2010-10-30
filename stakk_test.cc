@@ -32,8 +32,24 @@ int main(int argc, char *argv[]) {
     wcout << "loading dictionary" << endl;
     trie.load_dictionary(dictionary);
     wcout << "loading connection" << endl;
-    Stakk stakk(trie, connection);
+    unsigned short connection_[CONNECTION_SIZE];
+    {
+        ifstream ifs;
+        ifs.open(connection.c_str());
+        string line;
+        getline(ifs, line);
+        while (getline(ifs, line)) {
+            vector<string> splited = split(line, ' ');
+            int lid = atoi(splited[0].c_str());
+            int rid = atoi(splited[1].c_str());
+            int cost = atoi(splited[2].c_str());
+            if (lid != 0) break;
+            connection_[rid] = cost;
+        }
+        ifs.close();
+    }
     wcout << "input query: " << endl;
+    Stakk stakk(trie, connection_);
     wstring line;
     while (getline(wcin, line)) {
         vector<Stakk::Entry> result;

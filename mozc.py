@@ -2,33 +2,29 @@
 #encoding: utf-8
 from sys import stdin
 from optparse import OptionParser
+from urllib import urlopen, quote
 from format import format
 
 #lattice node
 class Node:
-    def __init__(self, yomi, word, lid, rid, cost, index, total=0, back=None):
-        self.yomi = yomi
-        self.word = word
-        self.lid = lid
-        self.rid = rid
-        self.cost = cost
-        self.index = index
-        self.total = total
-        self.back = back
+    def __init__(self, line):
+        data = line.strip().split("\t")
+        self.yomi = data[0]
+        self.lid = int(data[2])
+        self.rid = int(data[3])
+        self.cost = int(data[4])
+        self.word = data[5]
+        self.index = 0
+        self.total = 0
+        self.back = None
     def __str__(self):
         return format((self.yomi, self.word, self.lid, self.rid, self.cost, self.total, self.index, self.back))
 
 #converter class
 class Converter:
     #load data
-    def __init__(self, dictionary, connection):
-        #initialize dictionary
-        self.dictionary = {}
-        for line in open(dictionary):
-            (yomi, lid, rid, cost, word) = line.strip().split("\t", 4)
-            lid, rid, cost = int(lid), int(rid), int(cost)
-            self.dictionary.setdefault(yomi, [])
-            self.dictionary[yomi].append([yomi, word, lid, rid, cost])
+    def __init__(self, url, connection):
+        self.url = url
 
         #initialize connection
         file = open(connection)
@@ -50,15 +46,15 @@ class Converter:
 
         #create lattice
         self.lattice = [[] for i in range(self.length+2)]
-        self.lattice[0].append(Node(' ', 'BOS', 0, 0, 0, 0))
-        self.lattice[-1].append(Node(' ', 'EOS', 0, 0, 0, 0))
+        self.lattice[0].append(Node("S\t0\t0\t0\t0\tBOS"))
+        self.lattice[-1].append(Node("S\t0\t0\t0\t0\tBOS"))
         for i in range(self.length):
-            for j in range(i+1, self.length+1):
-                yomi = input[i:j]
-                for yomi, word, lid, rid, cost in self.dictionary.get(yomi, []):
-                    index = len(self.lattice[j])
-                    node = Node(yomi, word, lid, rid, cost, index)
-                    self.lattice[j].append(node)
+            query = self.url + quote(input[i:])
+            for line in urlopen(query):
+                node = Node(line)
+                j = i + len(node.yomi)
+                node.index = len(self.lattice[j])
+                self.lattice[j].append(node)
 
         #forward search
         for i in range(1, self.length+2):
@@ -117,11 +113,12 @@ class Converter:
 if __name__ == '__main__':
     #parse options
     parser = OptionParser()
-    parser.add_option("-d", dest="dictionary", default="data/dictionary.txt")
+    parser.add_option("-u", dest="url", default="http://localhost:54633/common/")
     parser.add_option("-c", dest="connection", default="data/connection.txt")
     parser.add_option("-o", dest="output", action="store_true")
     (options, args) = parser.parse_args()
-    converter = Converter(options.dictionary, options.connection)
+    print 'loading..'
+    converter = Converter(options.url, options.connection)
     print 'input kana: '
 
     #input from stdin

@@ -3,11 +3,11 @@
 
 struct ListTrieWide {
     struct Entry {
-        wstring yomi;
+        wstring key;
         int distance;
         vector<wstring> values;
-        Entry(wstring _yomi, int _distance, vector<wstring> _values) {
-            yomi = _yomi;
+        Entry(wstring _key, int _distance, vector<wstring> _values) {
+            key = _key;
             distance = _distance;
             values = _values;
         }
@@ -122,7 +122,7 @@ struct ListTrieWide {
             Entry entry = entries.at(i);
             bool flag = false;
             for (int j = 0; j < results.size(); j++) {
-                if (entry.yomi == results.at(j).yomi) {
+                if (entry.key == results.at(j).key) {
                     if (entry.distance > results.at(j).distance)
                         results[j] = entry;
                     flag = true;
@@ -161,7 +161,7 @@ struct ListTrieWide {
             for (int j = 0; j < entry.values.size(); j++) {
                 wchar_t buffer[256];
                 swprintf(buffer, sizeof(buffer)/sizeof(wchar_t), L"%d", entry.distance);
-                result += entry.yomi + L"\t" + buffer + L"\t" + entry.values.at(j) + L"\n";
+                result += entry.key + L"\t" + buffer + L"\t" + entry.values.at(j) + L"\n";
             }
         }
         return result;

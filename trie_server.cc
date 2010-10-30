@@ -9,6 +9,8 @@ int main(int argc, char *argv[]) {
     //parse option
     int result, port = 54633;
     string filename = "data/dictionary.txt";
+    locale::global(locale(""));
+
     while((result = getopt(argc, argv, "f:p:")) != -1) {
         switch(result) {
             case 'f':
