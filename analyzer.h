@@ -3,8 +3,8 @@
 
 struct Analyzer {
     ListTrieWide &trie;
-    unsigned short *connection;
-    static const int connection_size = 3033;
+    Connection &connection;
+    Definition &definition;
 
     //lattice node
     struct Node {
@@ -20,13 +20,9 @@ struct Analyzer {
             index = back = 0;
             total = INT_MAX / 2;
         }
-        Node(wstring word_, wstring yomi_, unsigned short lid_, unsigned short rid_, unsigned short cost_) {
-            word = word_;
-            yomi = yomi_;
-            lid = lid_;
-            rid = rid_;
-            cost = cost_;
-            index = back = total = 0;
+        Node() {
+            word = yomi = L"S";
+            lid = rid = cost = index = back = total = 0;
         }
         wstring format() {
             wstringstream s;
@@ -34,36 +30,18 @@ struct Analyzer {
             return yomi + L" " + word + L" " + s.str();
         }
     };
+    const Node bos;
 
-    //load connection
-    Analyzer(ListTrieWide &trie_, string filename) : trie(trie_) {
-        ifstream ifs;
-        ifs.open(filename.c_str());
-        string line;
-        getline(ifs, line);
-        connection = new unsigned short[connection_size * connection_size];
-        while (getline(ifs, line)) {
-            vector<string> splited = split(line, ' ');
-            unsigned short lid = atoi(splited[0].c_str());
-            unsigned short rid = atoi(splited[1].c_str());
-            unsigned short cost = atoi(splited[2].c_str());
-            connection[lid * connection_size + rid] = cost;
-        }
-        ifs.close();
-    }
-    ~Analyzer() {
-        delete[] connection;
-    }
-    
-    //kana kanji conversion
-    vector<wstring> analyze(wstring input, bool debug=false) {
-        vector<wstring> results;
+    //initialize references
+    Analyzer(ListTrieWide &trie_, Connection &connection_, Definition &definition_)
+        : trie(trie_), connection(connection_), definition(definition_){}
 
+    //morphological analyze
+    vector<Node> analyze(wstring input, bool debug=false) {
         //create lattice
         vector<vector<Node> > lattice;
         lattice.clear();
         lattice.resize(input.length() + 2);
-        Node bos(L"S", L"S", 0, 0, 0);
         lattice[0].push_back(bos);
         lattice[lattice.size()-1].push_back(bos);
 
@@ -90,8 +68,10 @@ struct Analyzer {
                 int best_score = -1;
                 int best_index = -1;
                 for (int k = 0; k < lattice[index].size(); k++) {
-                    int pos = lattice[index][k].rid * connection_size + lattice[i][j].lid;
-                    int score = lattice[index][k].total + connection[pos];
+                    unsigned short lid = lattice[index][k].rid;
+                    unsigned short rid = lattice[i][j].lid;
+                    int transition = connection.get(lid, rid);
+                    int score = lattice[index][k].total + transition;
                     if (best_score == -1 || score < best_score) {
                         best_index = lattice[index][k].index;
                         best_score = score;
@@ -110,15 +90,39 @@ struct Analyzer {
             }
         }
         //back trace
+        vector<Node> nodes;
         int current = lattice.size()-2;
         int position = lattice[lattice.size()-1][0].back;
         while (current > 0 && lattice[current].size() > 0) {
             Node &node = lattice[current][position];
-            results.insert(results.begin(), node.word);
+            nodes.insert(nodes.begin(), node);
             position = node.back;
             current -= node.word.length();
         }
-        return results;
+        return nodes;
+    }
+    wstring format(vector<Node> nodes, string output) {
+        wstring result = L"";
+        if (output == "mecab") {
+            for (int i = 0; i < nodes.size(); i++) {
+                Node &node = nodes[i];
+                wstring lid = definition.get(node.lid);
+                wstring rid = definition.get(node.rid);
+                result += node.word + L"\t" + node.yomi + L"\t" + lid + L"\t" + rid + L"\n";
+            }
+            result += L"EOS\n";
+        } else if (output == "wakati") {
+            for (int i = 0; i < nodes.size(); i++) {
+                result += nodes[i].word + L" ";
+            }
+            result += L"\n";
+        } else if (output == "yomi") {
+            for (int i = 0; i < nodes.size(); i++) {
+                result += nodes[i].yomi;
+            }
+            result += L"\n";
+        }
+        return result;
     }
 };
 #endif
