@@ -17,7 +17,8 @@ struct Analyzer {
             wstringstream(splited[1]) >> lid;
             wstringstream(splited[2]) >> rid;
             wstringstream(splited[3]) >> cost;
-            index = total = back = 0;
+            index = back = 0;
+            total = INT_MAX / 2;
         }
         Node(wstring word_, wstring yomi_, unsigned short lid_, unsigned short rid_, unsigned short cost_) {
             word = word_;
@@ -25,7 +26,7 @@ struct Analyzer {
             lid = lid_;
             rid = rid_;
             cost = cost_;
-            index = total = back = 0;
+            index = back = total = 0;
         }
         wstring format() {
             wstringstream s;

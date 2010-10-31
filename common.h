@@ -19,6 +19,7 @@
 #include <netinet/in.h>
 #include <math.h>
 #include <string.h>
+#include <limits.h>
 
 using namespace std;
 

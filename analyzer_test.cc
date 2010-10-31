@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
     wcout << "input query: " << endl;
     wstring line;
     while (getline(wcin, line)) {
-        vector<wstring> result = analyzer.analyze(line);
+        vector<wstring> result = analyzer.analyze(line, true);
         for (int i = 0; i < result.size(); i++) {
             wcout << result[i] << " ";
         }
