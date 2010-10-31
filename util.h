@@ -59,6 +59,14 @@ inline vector<wstring> split_w(wstring s, wchar_t c) {
     v.push_back(s);
     return v;
 }
+//join wide
+inline wstring join_w(vector<wstring> v, wchar_t c) {
+    wstring result = L"";
+    for (int i = 0; i < v.size(); i++) {
+        result += v[i] + c;
+    }
+    return result.substr(0, result.length()-1);
+}
 
 #endif
 
