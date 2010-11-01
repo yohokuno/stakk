@@ -1,6 +1,6 @@
 #include "common.h"
-#include "trie.h"
 #include "util.h"
+#include "trie.h"
 #include "server.h"
 #include "trie_server.h"
 
@@ -23,8 +23,7 @@ int main(int argc, char *argv[]) {
     }
 
     ListTrieWide trie;
-    wcout << "loading dictionary" << endl;
-    trie.load_dictionary(filename);
+    trie.load(filename, 0, L'\t');
     wcout << "input query: " << endl;
     TrieServer server(trie);
     server.port = port;
