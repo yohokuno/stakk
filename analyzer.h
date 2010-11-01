@@ -27,7 +27,8 @@ struct Analyzer {
         }
         wstring format() {
             wstringstream s;
-            s << index << L" " << cost << L" " << total << L" " << back;
+            s << index << L" " << cost << L" " << total << L" " << back
+                << L" " << lid << L" " << rid;
             return yomi + L" " + word + L" " + s.str();
         }
     };
@@ -66,7 +67,7 @@ struct Analyzer {
                 int index = i - lattice[i][j].key.length();
                 if (index < 0 || lattice[index].size() == 0)
                     continue;
-                int best_score, best_index = -1;
+                int best_score = -1, best_index = -1;
                 for (int k = 0; k < lattice[index].size(); k++) {
                     unsigned short lid = lattice[index][k].rid;
                     unsigned short rid = lattice[i][j].lid;
