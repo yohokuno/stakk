@@ -8,25 +8,26 @@ struct Analyzer {
 
     //lattice node
     struct Node {
-        wstring yomi, word;
+        wstring yomi, word, key;
         unsigned short lid, rid, cost;
         unsigned int index, total, back;
-        Node(vector<wstring> splited, wstring word_) {
+        Node(vector<wstring> splited, wstring key_) {
             yomi = splited[0];
             wstringstream(splited[1]) >> lid;
             wstringstream(splited[2]) >> rid;
             wstringstream(splited[3]) >> cost;
             word = splited[4];
+            key = key_;
             index = back = 0;
-            total = INT_MAX / 2;
+            total = INT_MAX / 10 - 1;
         }
         Node() {
-            word = yomi = L"S";
+            word = yomi = key = L"S";
             lid = rid = cost = index = back = total = 0;
         }
         wstring format() {
             wstringstream s;
-            s << index << L" " << total << L" " << back;
+            s << index << L" " << cost << L" " << total << L" " << back;
             return yomi + L" " + word + L" " + s.str();
         }
     };
@@ -62,11 +63,10 @@ struct Analyzer {
         //forward search
         for (int i = 0; i < lattice.size(); i++) {
             for (int j = 0; j < lattice[i].size(); j++) {
-                int index = i - lattice[i][j].word.length();
+                int index = i - lattice[i][j].key.length();
                 if (index < 0 || lattice[index].size() == 0)
                     continue;
-                int best_score = -1;
-                int best_index = -1;
+                int best_score, best_index = -1;
                 for (int k = 0; k < lattice[index].size(); k++) {
                     unsigned short lid = lattice[index][k].rid;
                     unsigned short rid = lattice[i][j].lid;
@@ -97,7 +97,7 @@ struct Analyzer {
             Node &node = lattice[current][position];
             nodes.insert(nodes.begin(), node);
             position = node.back;
-            current -= node.word.length();
+            current -= node.key.length();
         }
         return nodes;
     }
