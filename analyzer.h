@@ -19,7 +19,7 @@ struct Analyzer {
             word = splited[4];
             key = key_;
             index = back = 0;
-            total = INT_MAX / 10 - 1;
+            total = INT_MAX / 2 - 1;
         }
         Node() {
             word = yomi = key = L"S";
