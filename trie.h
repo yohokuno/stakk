@@ -141,6 +141,15 @@ struct ListTrieWide {
             i->second.display(key + i->first);
         }
     }
+    void load(string filename, int key, wchar_t separator) {
+        wifstream ifs(filename.c_str());
+        wstring line;
+        while (getline(ifs, line)) {
+            vector<wstring> splited = split_w(line, separator);
+            insert(splited[key], line);
+        }
+        ifs.close();
+    }
     void load_dictionary(string filename) {
         wifstream ifs(filename.c_str());
         wstring line;

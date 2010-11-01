@@ -12,11 +12,11 @@ struct Analyzer {
         unsigned short lid, rid, cost;
         unsigned int index, total, back;
         Node(vector<wstring> splited, wstring word_) {
-            word = word_;
             yomi = splited[0];
             wstringstream(splited[1]) >> lid;
             wstringstream(splited[2]) >> rid;
             wstringstream(splited[3]) >> cost;
+            word = splited[4];
             index = back = 0;
             total = INT_MAX / 2;
         }

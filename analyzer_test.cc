@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
     string connection_ = "data/connection.txt";
     string id_def = "data/id.def";
     string output = "mecab";
-    locale::global(locale(""));
+    //locale::global(locale(""));
 
     while((result = getopt(argc, argv, "d:c:i:o:")) != -1) {
         switch(result) {
@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
 
     wcout << "loading dictionary" << endl;
     ListTrieWide trie;
-    trie.load_dictionary_reverse(dictionary_);
+    trie.load(dictionary_, 4, L'\t');
 
     wcout << "loading connection" << endl;
     Connection connection(connection_);
