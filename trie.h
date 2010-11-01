@@ -150,31 +150,6 @@ struct ListTrieWide {
         }
         ifs.close();
     }
-    void load_dictionary(string filename) {
-        wifstream ifs(filename.c_str());
-        wstring line;
-        while (getline(ifs, line)) {
-            size_t pos = line.find('\t');
-            if (pos == wstring::npos)
-                continue;
-            wstring key = line.substr(0, pos);
-            wstring value = line.substr(pos+1);
-            insert(key, value);
-        }
-        ifs.close();
-    }
-    void load_dictionary_reverse(string filename) {
-        wifstream ifs(filename.c_str());
-        wstring line;
-        while (getline(ifs, line)) {
-            vector<wstring> splited = split_w(line, L'\t');
-            wstring key = splited.back();
-            splited.pop_back();
-            wstring value = join_w(splited, L'\t');
-            insert(key, value);
-        }
-        ifs.close();
-    }
     static wstring format(Entries entries) {
         wstring result = L"";
         for (int i = 0; i < entries.size(); i++) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "util.h"
 #include "trie.h"
 
 int main(int argc, char *argv[]) {
@@ -19,7 +20,7 @@ int main(int argc, char *argv[]) {
     }
     ListTrieWide trie;
     wcout << "inserting.." << endl;
-    trie.load_dictionary(filename);
+    trie.load(filename, 0, L'\t');
     wcout << "input kana:" << endl;
     wstring input;
     while (wcin >> input) {
