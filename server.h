@@ -9,8 +9,6 @@ struct Server {
 
     // set locale
     Server() {
-        setlocale(LC_CTYPE, "");
-        locale::global(locale(""));
         port = 54633;
     }
 
