@@ -3,11 +3,13 @@
 
 struct StakkServer : public TrieServer {
     Stakk &stakk;
+    Analyzer &analyzer;
     int threshold, number;
 
     //init trie and stakk references
-    StakkServer(ListTrieWide &trie_, Stakk &stakk_, int threshold_, int number_)
-        : TrieServer(trie_), stakk(stakk_) {
+    StakkServer(ListTrieWide &trie_, Stakk &stakk_, Analyzer &analyzer_, int threshold_, int number_)
+        : TrieServer(trie_), stakk(stakk_), analyzer(analyzer_)
+    {
         threshold = threshold_;
         number = number_;
     }

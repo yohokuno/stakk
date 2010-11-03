@@ -3,6 +3,7 @@
 #include "trie.h"
 #include "connection.h"
 #include "stakk.h"
+#include "analyzer.h"
 #include "server.h"
 #include "trie_server.h"
 #include "stakk_server.h"
@@ -15,16 +16,20 @@ int main(int argc, char *argv[]) {
     int number = 50;
     string dictionary_ = "data/dictionary.txt";
     string connection_ = "data/connection.txt";
+    string id_def = "data/id.def";
     bool debug = false;
     bool reverse = false;
 
-    while((result = getopt(argc, argv, "d:c:t:n:p:blr")) != -1) {
+    while((result = getopt(argc, argv, "d:c:i:t:n:p:blr")) != -1) {
         switch(result) {
             case 'd':
                 dictionary_ = optarg;
                 break;
             case 'c':
                 connection_ = optarg;
+                break;
+            case 'i':
+                id_def = optarg;
                 break;
             case 'p':
                 port = atoi(optarg);
@@ -52,14 +57,19 @@ int main(int argc, char *argv[]) {
         trie.load(dictionary_, 0, L'\t');
 
     wcout << "loading connection" << endl;
-    Connection connection(connection_, false);
+    Connection connection(connection_);
 
+    wcout << "loading id definition" << endl;
+    Definition definition(id_def);
+
+    //initialize action objects using data object reference.
     Stakk stakk(trie, connection);
-    StakkServer server(trie, stakk, threshold, number);
+    Analyzer analyzer(trie, connection, definition);
+    StakkServer server(trie, stakk, analyzer, threshold, number);
     server.port = port;
     server.threshold = threshold;
 
-    wcout << "input query: " << endl;
+    wcout << "server ready" << endl;
     result = server.communicate();
 
     return result;
