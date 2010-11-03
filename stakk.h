@@ -3,26 +3,27 @@
 
 struct Stakk {
     ListTrieWide &trie;
-    unsigned short *connection;
+    Connection  &connection;
 
     //result entry
     struct Entry {
         wstring yomi, word;
         int lid, rid, cost, rank;
         Entry(vector<wstring> splited, wstring yomi_) {
-            wstringstream(splited[0]) >> lid;
-            wstringstream(splited[1]) >> rid;
-            wstringstream(splited[2]) >> cost;
-            word = splited[3];
-            yomi = yomi_;
+            yomi = splited[0];
+            wstringstream(splited[1]) >> lid;
+            wstringstream(splited[2]) >> rid;
+            wstringstream(splited[3]) >> cost;
+            word = splited[4];
         }
         wstring format() {
             return yomi + L"\t" + word;
         }
     };
     //initalize
-    Stakk(ListTrieWide &trie_, unsigned short *connection_):trie(trie_) {
-        connection = connection_;
+    Stakk(ListTrieWide &trie_, Connection &connection_)
+        : trie(trie_), connection(connection_)
+    {
     }
 
     //spell correct
@@ -35,7 +36,7 @@ struct Stakk {
             for (int j = 0; j < entries[i].values.size(); j++) {
                 vector<wstring> splited = split_w(entries[i].values[j], L'\t');
                 Entry entry(splited, yomi);
-                int total = entry.cost + connection[entry.lid];
+                int total = entry.cost + connection.get(0, entry.lid);
                 entry.rank = total + (threshold-distance) * 5000;
                 results.push_back(entry);
             }
@@ -53,7 +54,7 @@ struct Stakk {
             for (int j = 0; j < entries[i].values.size(); j++) {
                 vector<wstring> splited = split_w(entries[i].values[j], L'\t');
                 Entry entry(splited, yomi);
-                int total = entry.cost + connection[entry.lid];
+                int total = entry.cost + connection.get(0, entry.lid);
                 entry.rank = total - int(1000.0 * log(1+length));
                 results.push_back(entry);
             }

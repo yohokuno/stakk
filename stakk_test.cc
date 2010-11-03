@@ -1,25 +1,25 @@
 #include "common.h"
 #include "util.h"
 #include "trie.h"
+#include "connection.h"
 #include "stakk.h"
-
-#define CONNECTION_SIZE 3033
 
 int main(int argc, char *argv[]) {
     //parse option
     int result, threshold = 2;
-    string dictionary = "data/dictionary.txt";
-    string connection = "data/connection.txt";
+    string dictionary_ = "data/dictionary.txt";
+    string connection_ = "data/connection.txt";
     string mode = "spell";
-    locale::global(locale(""));
+    bool debug = false;
+    bool reverse = false;
 
-    while((result = getopt(argc, argv, "d:c:t:m:")) != -1) {
+    while((result = getopt(argc, argv, "d:c:t:m:blr")) != -1) {
         switch(result) {
             case 'd':
-                dictionary = optarg;
+                dictionary_ = optarg;
                 break;
             case 'c':
-                connection = optarg;
+                connection_ = optarg;
                 break;
             case 't':
                 threshold = atoi(optarg);
@@ -27,32 +27,32 @@ int main(int argc, char *argv[]) {
             case 'm':
                 mode = optarg;
                 break;
+            case 'b':
+                debug = true;
+                break;
+            case 'l':
+                locale::global(locale(""));
+                break;
+            case 'r':
+                reverse = true;
+                break;
         }
     }
 
-    ListTrieWide trie;
     wcout << "loading dictionary" << endl;
-    trie.load_dictionary(dictionary);
+    ListTrieWide trie;
+    if (!reverse)
+        trie.load(dictionary_, 4, L'\t');
+    else if (mode == "convert")
+        trie.load(dictionary_, 0, L'\t');
+
     wcout << "loading connection" << endl;
-    unsigned short connection_[CONNECTION_SIZE];
-    {
-        ifstream ifs;
-        ifs.open(connection.c_str());
-        string line;
-        getline(ifs, line);
-        while (getline(ifs, line)) {
-            vector<string> splited = split(line, ' ');
-            int lid = atoi(splited[0].c_str());
-            int rid = atoi(splited[1].c_str());
-            int cost = atoi(splited[2].c_str());
-            if (lid != 0) break;
-            connection_[rid] = cost;
-        }
-        ifs.close();
-    }
-    wcout << "input query: " << endl;
-    Stakk stakk(trie, connection_);
+    Connection connection(connection_);
+
+    Stakk stakk(trie, connection);
     wstring line;
+
+    wcout << "input query: " << endl;
     while (getline(wcin, line)) {
         vector<Stakk::Entry> result;
         if (mode == "spell")
