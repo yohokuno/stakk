@@ -2,7 +2,7 @@
 #define CONNECTION_H
 
 struct Connection {
-    unsigned short *connection;
+    vector<unsigned short> connection;
     static const int size = 3033;
 
     Connection(string filename, bool full = true) {
@@ -11,9 +11,9 @@ struct Connection {
         wstring line;
         getline(ifs, line);
         if (full)
-            connection = new unsigned short[size * size];
+            connection.resize(size * size);
         else
-            connection = new unsigned short[size];
+            connection.resize(size);
         while (getline(ifs, line)) {
             vector<wstring> splited = split_w(line, L' ');
             unsigned short lid, rid ,cost;
@@ -24,9 +24,6 @@ struct Connection {
             connection[lid * size + rid] = cost;
         }
         ifs.close();
-    }
-    ~Connection() {
-        delete[] connection;
     }
     unsigned short get(unsigned short lid, unsigned short rid) {
         return connection[lid * size + rid];
