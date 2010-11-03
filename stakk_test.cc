@@ -10,10 +10,9 @@ int main(int argc, char *argv[]) {
     string dictionary_ = "data/dictionary.txt";
     string connection_ = "data/connection.txt";
     string mode = "spell";
-    bool debug = false;
     bool reverse = false;
 
-    while((result = getopt(argc, argv, "d:c:t:m:blr")) != -1) {
+    while((result = getopt(argc, argv, "d:c:t:m:lr")) != -1) {
         switch(result) {
             case 'd':
                 dictionary_ = optarg;
@@ -26,9 +25,6 @@ int main(int argc, char *argv[]) {
                 break;
             case 'm':
                 mode = optarg;
-                break;
-            case 'b':
-                debug = true;
                 break;
             case 'l':
                 locale::global(locale(""));

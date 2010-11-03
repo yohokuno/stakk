@@ -4,14 +4,13 @@
 #include "server.h"
 #include "trie_server.h"
 
-//main logic
 int main(int argc, char *argv[]) {
     //parse option
     int result, port = 54633;
     string filename = "data/dictionary.txt";
-    locale::global(locale(""));
+    bool reverse = false;
 
-    while((result = getopt(argc, argv, "f:p:")) != -1) {
+    while((result = getopt(argc, argv, "f:p:lr")) != -1) {
         switch(result) {
             case 'f':
                 filename = optarg;
@@ -19,14 +18,26 @@ int main(int argc, char *argv[]) {
             case 'p':
                 port = atoi(optarg);
                 break;
+            case 'l':
+                locale::global(locale(""));
+                break;
+            case 'r':
+                reverse = true;
+                break;
         }
     }
 
+    wcout << "loading dictionary" << endl;
     ListTrieWide trie;
-    trie.load(filename, 0, L'\t');
-    wcout << "input query: " << endl;
+    if (reverse)
+        trie.load(filename, 4, L'\t');
+    else
+        trie.load(filename, 0, L'\t');
+
     TrieServer server(trie);
     server.port = port;
+
+    wcout << "input query: " << endl;
     result = server.communicate();
 
     return result;
