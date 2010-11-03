@@ -28,26 +28,31 @@ struct StakkServer : public TrieServer {
 
     //implement spell and predict mode
     virtual wstring get_result(vector<string> path) {
-        wstring response = L"";
         wstring input = parse_path(path);
 
-        vector<Stakk::Entry> result;
-        if (mode == "spell")
-            stakk.correct(input, threshold, result);
-        else if (mode == "predict")
-            stakk.predict(input, result);
-        else if (mode == "convert") { 
+        //analyzer
+        if (mode == "convert") { 
             string output = "wakati";
             vector<Analyzer::Node> nodes = analyzer.analyze(input);
-            response = analyzer.format(nodes, output);
+            return analyzer.format(nodes, output);
         }
+        //prediction or spell correction
+        {
+            vector<Stakk::Entry> result;
+            if (mode == "spell")
+                stakk.correct(input, threshold, result);
+            else if (mode == "predict")
+                stakk.predict(input, result);
 
-        for (int i = 0; i < min(number, (int)result.size()); i++) {
-            response += result[i].format() + L"\n";
+            wstring response = L"";
+            for (int i = 0; i < min(number, (int)result.size()); i++) {
+                response += result[i].format() + L"\n";
+            }
+            if (result.size() > 0)
+                return response;
         }
-        if (result.size() == 0)
-            response = TrieServer::get_result(path);
-        return response;
+        //otherwise raw trie operation
+        return TrieServer::get_result(path);
     }
 };
 
