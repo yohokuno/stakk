@@ -6,19 +6,20 @@ struct Connection {
     static const int size = 3033;
 
     Connection(string filename, bool full = true) {
-        ifstream ifs;
+        wifstream ifs;
         ifs.open(filename.c_str());
-        string line;
+        wstring line;
         getline(ifs, line);
         if (full)
             connection = new unsigned short[size * size];
         else
             connection = new unsigned short[size];
         while (getline(ifs, line)) {
-            vector<string> splited = split(line, ' ');
-            unsigned short lid = atoi(splited[0].c_str());
-            unsigned short rid = atoi(splited[1].c_str());
-            unsigned short cost = atoi(splited[2].c_str());
+            vector<wstring> splited = split_w(line, L' ');
+            unsigned short lid, rid ,cost;
+            wstringstream(splited[0]) >> lid;
+            wstringstream(splited[1]) >> rid;
+            wstringstream(splited[2]) >> cost;
             if (!full && lid != 0) break;
             connection[lid * size + rid] = cost;
         }
