@@ -1,6 +1,7 @@
 #include "common.h"
 #include "util.h"
 #include "trie.h"
+#include "connection.h"
 #include "stakk.h"
 #include "server.h"
 #include "trie_server.h"
@@ -12,17 +13,18 @@ int main(int argc, char *argv[]) {
     int port = 54633;
     int threshold = 2;
     int number = 50;
-    string dictionary = "data/dictionary.txt";
-    string connection = "data/connection.txt";
-    locale::global(locale(""));
+    string dictionary_ = "data/dictionary.txt";
+    string connection_ = "data/connection.txt";
+    bool debug = false;
+    bool reverse = false;
 
-    while((result = getopt(argc, argv, "d:c:t:n:p:")) != -1) {
+    while((result = getopt(argc, argv, "d:c:t:n:p:blr")) != -1) {
         switch(result) {
             case 'd':
-                dictionary = optarg;
+                dictionary_ = optarg;
                 break;
             case 'c':
-                connection = optarg;
+                connection_ = optarg;
                 break;
             case 'p':
                 port = atoi(optarg);
@@ -33,18 +35,31 @@ int main(int argc, char *argv[]) {
             case 'n':
                 number = atoi(optarg);
                 break;
+            case 'l':
+                locale::global(locale(""));
+                break;
+            case 'r':
+                reverse = true;
+                break;
         }
     }
 
-    ListTrieWide trie;
     wcout << "loading dictionary" << endl;
-    trie.load_dictionary(dictionary);
+    ListTrieWide trie;
+    if (reverse)
+        trie.load(dictionary_, 4, L'\t');
+    else
+        trie.load(dictionary_, 0, L'\t');
+
     wcout << "loading connection" << endl;
+    Connection connection(connection_, false);
+
     Stakk stakk(trie, connection);
-    wcout << "input query: " << endl;
     StakkServer server(trie, stakk, threshold, number);
     server.port = port;
     server.threshold = threshold;
+
+    wcout << "input query: " << endl;
     result = server.communicate();
 
     return result;
