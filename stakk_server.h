@@ -36,6 +36,11 @@ struct StakkServer : public TrieServer {
             stakk.correct(input, threshold, result);
         else if (mode == "predict")
             stakk.predict(input, result);
+        else if (mode == "convert") { 
+            string output = "wakati";
+            vector<Analyzer::Node> nodes = analyzer.analyze(input);
+            response = analyzer.format(nodes, output);
+        }
 
         for (int i = 0; i < min(number, (int)result.size()); i++) {
             response += result[i].format() + L"\n";
