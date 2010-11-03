@@ -41,9 +41,9 @@ int main(int argc, char *argv[]) {
 
     wcout << "loading dictionary" << endl;
     ListTrieWide trie;
-    if (!reverse)
+    if (reverse)
         trie.load(dictionary_, 4, L'\t');
-    else if (mode == "convert")
+    else
         trie.load(dictionary_, 0, L'\t');
 
     wcout << "loading connection" << endl;
