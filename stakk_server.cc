@@ -3,7 +3,7 @@
 #include "trie.h"
 #include "connection.h"
 #include "stakk.h"
-#include "analyzer.h"
+#include "converter.h"
 #include "server.h"
 #include "trie_server.h"
 #include "stakk_server.h"
@@ -64,8 +64,8 @@ int main(int argc, char *argv[]) {
 
     //initialize action objects using data object reference.
     Stakk stakk(trie, connection);
-    Analyzer analyzer(trie, connection, definition);
-    StakkServer server(trie, stakk, analyzer, threshold, number);
+    Converter converter(trie, connection, definition);
+    StakkServer server(trie, stakk, converter, threshold, number);
     server.port = port;
     server.threshold = threshold;
 

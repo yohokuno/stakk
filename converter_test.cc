@@ -2,7 +2,7 @@
 #include "util.h"
 #include "trie.h"
 #include "connection.h"
-#include "analyzer.h"
+#include "converter.h"
 
 int main(int argc, char *argv[]) {
     //parse option
@@ -11,11 +11,11 @@ int main(int argc, char *argv[]) {
     string connection_ = "data/connection.txt";
     string id_def = "data/id.def";
     string output = "mecab";
-    string mode = "analyze";
+    bool reverse = false;
     bool debug = false;
     setlocale(LC_CTYPE, "ja_JP.utf-8");
 
-    while((result = getopt(argc, argv, "d:c:i:o:m:b")) != -1) {
+    while((result = getopt(argc, argv, "d:c:i:o:rb")) != -1) {
         switch(result) {
             case 'd':
                 dictionary_ = optarg;
@@ -29,8 +29,8 @@ int main(int argc, char *argv[]) {
             case 'o':
                 output = optarg;
                 break;
-            case 'm':
-                mode = optarg;
+            case 'r':
+                reverse = true;
                 break;
             case 'b':
                 debug = true;
@@ -40,9 +40,9 @@ int main(int argc, char *argv[]) {
 
     wcout << "loading dictionary" << endl;
     ListTrieWide trie;
-    if (mode == "analyze")
+    if (reverse)
         trie.load(dictionary_, 4, L'\t');
-    else if (mode == "convert")
+    else
         trie.load(dictionary_, 0, L'\t');
 
     wcout << "loading connection" << endl;
@@ -51,13 +51,13 @@ int main(int argc, char *argv[]) {
     wcout << "loading id definition" << endl;
     Definition definition(id_def);
 
-    Analyzer analyzer(trie, connection, definition);
+    Converter converter(trie, connection, definition);
     wstring line;
 
     wcout << "input query: " << endl;
     while (getline(wcin, line)) {
-        vector<Analyzer::Node> nodes = analyzer.analyze(line, debug);
-        wcout << analyzer.format(nodes, output);
+        vector<Converter::Node> nodes = converter.convert(line, debug);
+        wcout << converter.format(nodes, output);
     }
     return 0;
 }

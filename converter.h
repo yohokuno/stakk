@@ -1,7 +1,7 @@
-#ifndef ANALYZER_H
-#define ANALYZER_H
+#ifndef CONVERTER_H
+#define CONVERTER_H
 
-struct Analyzer {
+struct Converter {
     ListTrieWide &trie;
     Connection &connection;
     Definition &definition;
@@ -35,11 +35,11 @@ struct Analyzer {
     const Node bos;
 
     //initialize references
-    Analyzer(ListTrieWide &trie_, Connection &connection_, Definition &definition_)
+    Converter(ListTrieWide &trie_, Connection &connection_, Definition &definition_)
         : trie(trie_), connection(connection_), definition(definition_){}
 
-    //morphological analyze
-    vector<Node> analyze(wstring input, bool debug=false) {
+    //convert from kana to kanji
+    vector<Node> convert(wstring input, bool debug=false) {
         //create lattice
         vector<vector<Node> > lattice;
         lattice.clear();

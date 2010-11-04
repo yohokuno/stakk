@@ -3,12 +3,12 @@
 
 struct StakkServer : public TrieServer {
     Stakk &stakk;
-    Analyzer &analyzer;
+    Converter &converter;
     int threshold, number;
 
     //init trie and stakk references
-    StakkServer(ListTrieWide &trie_, Stakk &stakk_, Analyzer &analyzer_, int threshold_, int number_)
-        : TrieServer(trie_), stakk(stakk_), analyzer(analyzer_)
+    StakkServer(ListTrieWide &trie_, Stakk &stakk_, Converter &converter_, int threshold_, int number_)
+        : TrieServer(trie_), stakk(stakk_), converter(converter_)
     {
         threshold = threshold_;
         number = number_;
@@ -30,11 +30,11 @@ struct StakkServer : public TrieServer {
     virtual wstring get_result(vector<string> path) {
         wstring input = parse_path(path);
 
-        //analyzer
+        //converter
         if (mode == "convert") { 
             string output = "wakati";
-            vector<Analyzer::Node> nodes = analyzer.analyze(input);
-            return analyzer.format(nodes, output);
+            vector<Converter::Node> nodes = converter.convert(input);
+            return converter.format(nodes, output);
         }
         //prediction or spell correction
         {
