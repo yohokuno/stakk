@@ -13,8 +13,9 @@ int main(int argc, char *argv[]) {
     string output = "mecab";
     string mode = "analyze";
     bool debug = false;
+    setlocale(LC_CTYPE, "ja_JP.utf-8");
 
-    while((result = getopt(argc, argv, "d:c:i:o:m:bl")) != -1) {
+    while((result = getopt(argc, argv, "d:c:i:o:m:b")) != -1) {
         switch(result) {
             case 'd':
                 dictionary_ = optarg;
@@ -33,9 +34,6 @@ int main(int argc, char *argv[]) {
                 break;
             case 'b':
                 debug = true;
-                break;
-            case 'l':
-                locale::global(locale(""));
                 break;
         }
     }
