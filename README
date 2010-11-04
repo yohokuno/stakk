@@ -15,4 +15,5 @@ todo
  sequencial spelling correction
  integrate kana-kanji conversion and predictive input
  abolish wchar_t/wstring and use char/string + utf-8
+ implement value offset type methodology
 
