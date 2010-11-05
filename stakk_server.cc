@@ -19,8 +19,9 @@ int main(int argc, char *argv[]) {
     string id_def = "data/id.def";
     bool debug = false;
     bool reverse = false;
+    try { locale::global(locale("")); } catch (...) {}
 
-    while((result = getopt(argc, argv, "d:c:i:t:n:p:blr")) != -1) {
+    while((result = getopt(argc, argv, "d:c:i:t:n:p:br")) != -1) {
         switch(result) {
             case 'd':
                 dictionary_ = optarg;
@@ -39,9 +40,6 @@ int main(int argc, char *argv[]) {
                 break;
             case 'n':
                 number = atoi(optarg);
-                break;
-            case 'l':
-                locale::global(locale(""));
                 break;
             case 'r':
                 reverse = true;

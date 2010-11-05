@@ -9,17 +9,15 @@ int main(int argc, char *argv[]) {
     int result, port = 54633;
     string filename = "data/dictionary.txt";
     bool reverse = false;
+    try { locale::global(locale("")); } catch (...) {}
 
-    while((result = getopt(argc, argv, "f:p:lr")) != -1) {
+    while((result = getopt(argc, argv, "f:p:r")) != -1) {
         switch(result) {
             case 'f':
                 filename = optarg;
                 break;
             case 'p':
                 port = atoi(optarg);
-                break;
-            case 'l':
-                locale::global(locale(""));
                 break;
             case 'r':
                 reverse = true;
