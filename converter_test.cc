@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
     string output = "mecab";
     bool reverse = false;
     bool debug = false;
-    setlocale(LC_CTYPE, "ja_JP.utf-8");
+    locale::global(locale());
 
     while((result = getopt(argc, argv, "d:c:i:o:rb")) != -1) {
         switch(result) {
