@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
     string output = "mecab";
     bool reverse = false;
     bool debug = false;
-    locale::global(locale());
+    try { locale::global(locale("")); } catch (...) {}
 
     while((result = getopt(argc, argv, "d:c:i:o:rb")) != -1) {
         switch(result) {
