@@ -7,11 +7,11 @@ struct StakkServer : public TrieServer {
     int threshold, number;
 
     //init trie and stakk references
-    StakkServer(ListTrieWide &trie_, Stakk &stakk_, Converter &converter_, int threshold_, int number_)
+    StakkServer(ListTrieWide &trie_, Stakk &stakk_, Converter &converter_)
         : TrieServer(trie_), stakk(stakk_), converter(converter_)
     {
-        threshold = threshold_;
-        number = number_;
+        threshold = 1;
+        number = 50;
     }
 
     //parse request path

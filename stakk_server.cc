@@ -12,8 +12,6 @@ int main(int argc, char *argv[]) {
     //parse option
     int result;
     int port = 54633;
-    int threshold = 2;
-    int number = 50;
     string dictionary_ = "data/dictionary.txt";
     string connection_ = "data/connection.txt";
     string id_def = "data/id.def";
@@ -21,7 +19,7 @@ int main(int argc, char *argv[]) {
     bool reverse = false;
     try { locale::global(locale("")); } catch (...) {}
 
-    while((result = getopt(argc, argv, "d:c:i:t:n:p:br")) != -1) {
+    while((result = getopt(argc, argv, "d:c:i:p:br")) != -1) {
         switch(result) {
             case 'd':
                 dictionary_ = optarg;
@@ -34,12 +32,6 @@ int main(int argc, char *argv[]) {
                 break;
             case 'p':
                 port = atoi(optarg);
-                break;
-            case 't':
-                threshold = atoi(optarg);
-                break;
-            case 'n':
-                number = atoi(optarg);
                 break;
             case 'r':
                 reverse = true;
@@ -63,9 +55,8 @@ int main(int argc, char *argv[]) {
     //initialize action objects using data object reference.
     Stakk stakk(trie, connection);
     Converter converter(trie, connection, definition);
-    StakkServer server(trie, stakk, converter, threshold, number);
+    StakkServer server(trie, stakk, converter);
     server.port = port;
-    server.threshold = threshold;
 
     wcout << "server ready" << endl;
     result = server.communicate();

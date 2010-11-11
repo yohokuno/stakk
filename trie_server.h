@@ -8,21 +8,6 @@ struct TrieServer : public Server {
     //init trie reference
     TrieServer(ListTrieWide &trie_) : trie(trie_) {}
 
-    //parse option
-    void parse_option(int argc, char *argv[]) {
-        int result;
-        while((result = getopt(argc, argv, "f:p:")) != -1) {
-            switch(result) {
-                case 'f':
-                    filename = optarg;
-                    break;
-                case 'p':
-                    port = atoi(optarg);
-                    break;
-            }
-        }
-    }
-
     //parse request path
     wstring parse_path(vector<string> &path) {
         if (path.size() != 3)

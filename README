@@ -1,19 +1,28 @@
 StaKK: Statistical Kana Kanji conversion engine
 
-current feature
- trie with common prefix / predictive / fuzzy search
- kana-kanji converter
- spelling correction
- predictive input
- morphological analyzer
- http api server with above
- use mozc dictionary and language model data
+Current Feature
+ Trie supports common prefix / predictive / fuzzy search
+ Kana-Kanji Converter
+ Spelling Correction
+ Predictive Input
+ Morphological Analyzer
+ HTTP API Server
+ Mozc Dictionary and Language Model Data
 
-todo
- use epoll or libevent for event handling
- design and implement url parser for parameter customization
- sequencial spelling correction
- integrate kana-kanji conversion and predictive input
- abolish wchar_t/wstring and use char/string + utf-8
- implement value offset type methodology
+TODO
+ Event Handling with epoll or libevent
+ URL Parser for Parameter Customization
+ Sequencial Spelling Correction
+ Sequencial Predictive Input
+ Support UTF-8
+ Value Offset Type Methodology
+
+Dream
+ LOUDS Trie
+ Huffman Cording for Data Compression
+ Handwritten Recognition
+ OCR
+ Speech Recognition
+ Machine Translation
+ Dialogue System
 

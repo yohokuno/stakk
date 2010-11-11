@@ -83,7 +83,6 @@ struct Server {
             //process query and get result
             wstring result = get_result(path);
             wstring response = generate_response(result);
-            //wcout << L"output: " << response << endl;
 
             string output = narrow(response);
             send(sock, output.c_str(), (int)strlen(output.c_str()), 0);
