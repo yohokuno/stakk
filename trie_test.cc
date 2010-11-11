@@ -6,7 +6,6 @@ int main(int argc, char *argv[]) {
     int result;
     string filename = "data/dictionary.txt";
     string mode = "all";
-    try { locale::global(locale("")); } catch (...) {}
 
     while((result = getopt(argc, argv, "f:m:")) != -1) {
         switch(result) {
@@ -18,36 +17,36 @@ int main(int argc, char *argv[]) {
                 break;
         }
     }
-    ListTrieWide trie;
-    wcout << "inserting.." << endl;
-    trie.load(filename, 0, L'\t');
-    wcout << "input kana:" << endl;
-    wstring input;
-    while (wcin >> input) {
+    Trie trie;
+    cout << "inserting.." << endl;
+    trie.load(filename, 0, '\t');
+    cout << "input kana:" << endl;
+    string input;
+    while (cin >> input) {
         if (mode == "all" || mode == "search") {
-            vector<wstring> *result;
+            vector<string> *result;
             result = trie.search(input);
-            wcout << "search:" << endl;
+            cout << "search:" << endl;
             if (result)
-                wcout << ListTrieWide::format(*result) << endl;
+                cout << Trie::format(*result) << endl;
         }
         if (mode == "all" || mode == "common") {
-            ListTrieWide::Entries results;
-            trie.common_prefix_search(input, L"", results);
-            wcout << "common:" << endl;
-            wcout << ListTrieWide::format(results);
+            Trie::Entries results;
+            trie.common_prefix_search(input, "", results);
+            cout << "common:" << endl;
+            cout << Trie::format(results);
         }
         if (mode == "all" || mode == "predict") {
-            ListTrieWide::Entries results;
-            trie.predictive_search(input, L"", results);
-            wcout << "predict:" << endl;
-            wcout << ListTrieWide::format(results);
+            Trie::Entries results;
+            trie.predictive_search(input, "", results);
+            cout << "predict:" << endl;
+            cout << Trie::format(results);
         }
         if (mode == "all" || mode == "fuzzy") {
-            ListTrieWide::Entries results;
+            Trie::Entries results;
             trie.fuzzy_search_ex(input, 2, results);
-            wcout << "fuzzy:" << endl;
-            wcout << ListTrieWide::format(results);
+            cout << "fuzzy:" << endl;
+            cout << Trie::format(results);
         }
     }
     return 0;

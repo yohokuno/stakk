@@ -1,30 +1,30 @@
 #ifndef TRIE_H
 #define TRIE_H
 
-struct ListTrieWide {
+struct Trie {
     struct Entry {
-        wstring key;
+        string key;
         int distance;
-        vector<wstring> values;
-        Entry(wstring _key, int _distance, vector<wstring> _values) {
+        vector<string> values;
+        Entry(string _key, int _distance, vector<string> _values) {
             key = _key;
             distance = _distance;
             values = _values;
         }
     };
     typedef vector<Entry> Entries;
-    typedef pair<wchar_t, ListTrieWide> Pair;
+    typedef pair<char, Trie> Pair;
     typedef list<Pair>::iterator Itr;
     list<Pair> children;
-    vector<wstring> values;
+    vector<string> values;
 
-    void insert(wstring key, wstring value) {
+    void insert(string key, string value) {
         if (key.length() != 0) {
-            wchar_t first = key[0];
-            wstring rest = key.substr(1);
-            ListTrieWide *child = find(first);
+            char first = key[0];
+            string rest = key.substr(1);
+            Trie *child = find(first);
             if (child == NULL) {
-                children.push_back(Pair(first, ListTrieWide()));
+                children.push_back(Pair(first, Trie()));
                 child = &(children.back().second);
             }
             child->insert(rest, value);
@@ -32,7 +32,7 @@ struct ListTrieWide {
             values.push_back(value);
         }
     }
-    ListTrieWide *find(wchar_t key) {
+    Trie *find(char key) {
         for (Itr i = children.begin(); i != children.end(); i++) {
             if (key == i->first) {
                 return &i->second;
@@ -40,36 +40,36 @@ struct ListTrieWide {
         }
         return NULL;
     }
-    vector<wstring> *search(wstring key) {
+    vector<string> *search(string key) {
         if (!key.length())
             if (values.size())
                 return &values;
             else
                 return NULL;
-        wchar_t first = key[0];
-        wstring rest = key.substr(1);
-        ListTrieWide *child = find(first);
+        char first = key[0];
+        string rest = key.substr(1);
+        Trie *child = find(first);
         if (child != NULL)
             return child->search(rest);
         return NULL;
     }
-    void common_prefix_search(wstring query, wstring key, Entries &results) {
+    void common_prefix_search(string query, string key, Entries &results) {
         if (values.size())
             results.push_back(Entry(key, 0, values));
         if (!query.length() || !children.size())
             return;
-        ListTrieWide *child = find(query.at(0));
+        Trie *child = find(query.at(0));
         if (child != NULL)
             child->common_prefix_search(query.substr(1), key+query.at(0), results);
     }
-    void predictive_search(wstring query, wstring key, Entries &results) {
+    void predictive_search(string query, string key, Entries &results) {
         if (query.length() <= key.length() && values.size())
             results.push_back(Entry(key, 0, values));
         if (!children.size())
             return;
         if (query.length() > key.length()) {
-            wchar_t c = query.at(key.length());
-            ListTrieWide *child = find(c);
+            char c = query.at(key.length());
+            Trie *child = find(c);
             if (child != NULL)
                 child->predictive_search(query, key+c, results);
         } else {
@@ -78,7 +78,7 @@ struct ListTrieWide {
             }
         }
     }
-    void fuzzy_search(wstring query, wstring key, int distance, Entries &results) {
+    void fuzzy_search(string query, string key, int distance, Entries &results) {
         if (!query.length() && values.size())
             results.push_back(Entry(key, distance, values));
         if (!children.size())
@@ -86,7 +86,7 @@ struct ListTrieWide {
 
         // normal match
         if (query.length()) {
-            ListTrieWide *child = find(query.at(0));
+            Trie *child = find(query.at(0));
             if (child != NULL)
                 child->fuzzy_search(query.substr(1), key+query.at(0), distance, results);
         }
@@ -108,16 +108,16 @@ struct ListTrieWide {
             }
             // transpose
             if (query.length() > 1) {
-                wchar_t c = query.at(0);
+                char c = query.at(0);
                 query[0] = query.at(1);
                 query[1] = c;
                 fuzzy_search(query, key, distance-1, results);
             }
         }
     }
-    void fuzzy_search_ex(wstring query, int distance, Entries &results) {
+    void fuzzy_search_ex(string query, int distance, Entries &results) {
         Entries entries;
-        fuzzy_search(query, L"", distance, entries);
+        fuzzy_search(query, "", distance, entries);
         for (int i = 0; i < entries.size(); i++) {
             Entry entry = entries.at(i);
             bool flag = false;
@@ -134,38 +134,38 @@ struct ListTrieWide {
             }
         }
     }
-    void display(wstring key=L"") {
+    void display(string key="") {
         if (values.size() > 0)
-            wcout << key << "\t" << format(values) << endl;
+            cout << key << "\t" << format(values) << endl;
         for (Itr i = children.begin(); i != children.end(); i++) {
             i->second.display(key + i->first);
         }
     }
-    void load(string filename, int key, wchar_t separator) {
-        wifstream ifs(filename.c_str());
-        wstring line;
+    void load(string filename, int key, char separator) {
+        ifstream ifs(filename.c_str());
+        string line;
         while (getline(ifs, line)) {
-            vector<wstring> splited = split_w(line, separator);
+            vector<string> splited = split(line, separator);
             insert(splited[key], line);
         }
         ifs.close();
     }
-    static wstring format(Entries entries) {
-        wstring result = L"";
+    static string format(Entries entries) {
+        string result = "";
         for (int i = 0; i < entries.size(); i++) {
-            ListTrieWide::Entry entry = entries.at(i);
+            Trie::Entry entry = entries.at(i);
             for (int j = 0; j < entry.values.size(); j++) {
-                wchar_t buffer[256];
-                swprintf(buffer, sizeof(buffer)/sizeof(wchar_t), L"%d", entry.distance);
-                result += entry.key + L"\t" + buffer + L"\t" + entry.values.at(j) + L"\n";
+                stringstream distance;
+                distance << entry.distance;
+                result += entry.key + "\t" + distance.str() + "\t" + entry.values.at(j) + "\n";
             }
         }
         return result;
     }
-    static wstring format(vector<wstring> values) {
-        wstring result = L"";
+    static string format(vector<string> values) {
+        string result = "";
         for (int i = 0; i < values.size(); i++)
-            result += values.at(i) + L"\n";
+            result += values.at(i) + "\n";
         return result;
     }
 };
