@@ -86,7 +86,7 @@ struct Trie {
         if (!children.size())
             return;
 
-        // normal match
+        // exact match
         if (query.length()) {
             Trie *child = find(query.at(0));
             if (child != NULL)
@@ -180,17 +180,6 @@ struct Trie {
 };
 typedef Trie<char> SimpleTrie;
 typedef Trie<wchar_t> WideTrie;
-
-template<>
-void WideTrie::load(string filename, int key, wchar_t separator) {
-    wifstream ifs(filename.c_str());
-    wstring line;
-    while (getline(ifs, line)) {
-        vector<wstring> splited = split_w(line, separator);
-        insert(splited[key], line);
-    }
-    ifs.close();
-}
 
 #endif
 

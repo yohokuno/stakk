@@ -10,6 +10,7 @@ int main(int argc, char *argv[]) {
     int result;
     string filename = "data/dictionary.txt";
     string mode = "all";
+    try { locale::global(locale("")); } catch (...) {}
 
     while((result = getopt(argc, argv, "f:m:")) != -1) {
         switch(result) {
