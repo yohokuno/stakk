@@ -1,0 +1,30 @@
+* Implemented    
+Trie Data Structure
+Wide Character Support
+Common Prefix Search
+Predictive Search
+Fuzzy search
+Kana-Kanji Converter
+Spelling Correction
+Predictive Input
+Morphological Analyzer
+HTTP API Server
+Mozc Dictionary and Language Model Data
+
+* TODO
+HTML form tag Parameter URL Parser
+Event Handling with epoll or libevent
+Sequencial Spelling Correction
+Sequencial Predictive Input
+Support UTF-8
+Value Offset Type Methodology
+Dynamic Update
+
+* Dream
+LOUDS Trie
+Huffman Cording for Data Compression
+Handwritten Recognition
+OCR
+Speech Recognition
+Machine Translation
+Dialogue System
