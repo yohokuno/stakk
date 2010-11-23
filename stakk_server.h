@@ -16,14 +16,14 @@ struct StakkServer : public TrieServer {
 
     //parse request path
     wstring parse_path(vector<string> &path) {
-        if (path.size() < 3)
+        if (path.size() < 4)
             return L"";
-        mode = path[1];
-        if (path.size() > 3)
-            threshold = atoi(path[3].c_str());
+        mode = path[2];
         if (path.size() > 4)
-            number = atoi(path[4].c_str());
-        return widen(urldecode(path[2]));
+            threshold = atoi(path[4].c_str());
+        if (path.size() > 5)
+            number = atoi(path[5].c_str());
+        return widen(urldecode(path[3]));
     }
 
     //implement spell and predict mode
