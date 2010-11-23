@@ -1,31 +1,39 @@
 StaKK: Statistical Kana Kanji conversion engine
 
+StaKK is Kana-Kanji converter, Predictive Input (Query Suggest), Spelling Correction, and Morphological Analyzer.
+Currently, StaKK uses dictionary of Mozc (Google Japanese IME).
+
+Usage
+    $ g++ stakk_test.cc -o stakk_test
+    $ ./stakk_test
+    $ g++ stakk_server.cc -o stakk_server
+
 Current Feature
- Trie Data Structure with Wide Character
- Common Prefix Search
- Predictive Search
- Fuzzy search
- Kana-Kanji Converter
- Spelling Correction
- Predictive Input
- Morphological Analyzer
- HTTP API Server
- Mozc Dictionary and Language Model Data
+    Trie Data Structure with Wide Character
+    Common Prefix Search
+    Predictive Search
+    Fuzzy search
+    Kana-Kanji Converter
+    Spelling Correction
+    Predictive Input
+    Morphological Analyzer
+    HTTP API Server
+    Mozc Dictionary and Language Model Data
 
 TODO
- HTML form tag Parameter URL Parser
- Event Handling with epoll or libevent
- Sequencial Spelling Correction
- Sequencial Predictive Input
- Support UTF-8
- Value Offset Type Methodology
+    HTML form tag Parameter URL Parser
+    Event Handling with epoll or libevent
+    Sequencial Spelling Correction
+    Sequencial Predictive Input
+    Support UTF-8
+    Value Offset Type Methodology
 
 Dream
- LOUDS Trie
- Huffman Cording for Data Compression
- Handwritten Recognition
- OCR
- Speech Recognition
- Machine Translation
- Dialogue System
- Dynamic Update
+    LOUDS Trie
+    Huffman Cording for Data Compression
+    Handwritten Recognition
+    OCR
+    Speech Recognition
+    Machine Translation
+    Dialogue System
+    Dynamic Update

@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[]) {
     //parse option
-    int result, threshold = 2;
+    int result, threshold = 1;
     string dictionary_ = "data/dictionary.txt";
     string connection_ = "data/connection.txt";
     string mode = "spell";
