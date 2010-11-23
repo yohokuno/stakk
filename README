@@ -37,14 +37,17 @@ Common Options:
 
 Command Specific Options:
     converter_test [-i id.def] [-o mecab|wakati|yomi]
+        Execute Kana-Kanji Conversion or Morphological Analyze on Command Line.
         -i id.def:  Mozc format class id definition file path. default: data/id.def
         -o output:  Output format: one of "mecab", "wakati", "yomi". default: mecab
 
     stakk_test [-m predict|spell] [-t threshold]
+        Execute Prediction or Spelling Correction on Command Line.
         -m mode:        Retrieval mode: one of "predict", "spell". default: spell
         -t threshold:   Spelling correction threhsold of edit distance. default: 1
 
     stakk_server [-i id.def] [-p port]
+        Start HTTP API Server.
         -p port:    Port number of HTTP API server.
 
 HTTP API Server Path:

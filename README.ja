@@ -1,0 +1,173 @@
+StaKK: Statistical Kana Kanji conversion engine
+
+統計的自然言語処理エンジン StaKK
+
+* 現在の機能
+かな漢字変換
+予測変換 または サジェスト
+スペル訂正
+形態素解析
+HTTPによるAPIサーバ
+Trieの直接操作
+
+現在は、StaKK は辞書として Mozc （Google日本語入力のOSS版）のデータを使っています。
+
+* リバースモードについて
+StaKK はノーマルモードとリバースモードの2つのモードを持っています。
+
+ノーマルモードでは、かなを入力し、単語（主に漢字）を出力します。
+リバースモードでは、単語を入力し、読みや品詞を出力します。
+
+これらの2つのモードは次の表にまとめたような応用が考えられます。
+
+| 機能          | ノーマルモード    | リバースモード            |
+| Convert       | かな漢字変換      | 形態素解析                |
+| Predict       | 予測変換          | 検索ワードのサジェスト    |
+| Spell Correct | 読みのスペル訂正  | 表記のスペル訂正          |
+
+* 使い方
+共通コマンドオプション
+    command [-r] [-d dictionary] [-c conneciton]
+        -d dictionary:  Mozcフォーマットの辞書があるファイルパス。デフォルト: data/dictinoary.txt
+        -c connection:  Mozcフォーマットの接続コストのファイルパス。デフォルト: data/connection.txt
+        -i id.def:  MozcフォーマットのクラスIDの定義ファイル。デフォルト: data/id.def
+            このオプションはstakk_testコマンドでは無効。
+        -r: リバースモードにする。
+        リバースモードの場合、入力として読みがなではなく単語の表記を受け取る。
+
+コマンド別オプション
+    converter_test [-i id.def] [-o mecab|wakati|yomi]
+        かな漢字変換/形態素解析をコマンドラインで実行する。
+        -o output:  出力フォーマット。mecab, wakati, yomi のどれか。デフォルト: mecab
+
+    stakk_test [-m predict|spell] [-t threshold]
+        予測変換/スペル訂正をコマンドラインで実行する。
+        -m mode:    検索モード。predict, spell のどちらか。デフォルト: spell
+        -t threshold:   スペル訂正のときの編集距離のしきい値。デフォルト: 1
+
+    stakk_server [-i id.def] [-p port]
+        HTTPによるAPIサーバを立ち上げる。
+        -p port:    HTTP APIサーバのポート番号。
+
+HTTP API のパラメータ:
+    共通フォーマット
+        /apiname/method/query[options]
+                    
+        apiname:    どんな文字列でも可。推奨: api
+        method:     convert, predict, spell のうちのどれか。
+        query:      URLエンコードされた日本語文字列。変換対象となる。
+
+    Convert メソッド
+        /apiname/convert/query/format
+
+        format:     wakati, mecab, yomiのうちのどれか。デフォルト: wakati
+            
+    Predict メソッド
+        /apiname/predict/query/number
+
+        number:     表示する最大の予測候補の数。デフォルト: 50
+
+    Spell メソッド
+        /apiname/predict/query/threshold/number
+
+        threshold:  編集距離のしきい値。デフォルト: 1
+        この値を２より大きく設定しないでください。サーバが停止するおそれがあります。
+        number:     表示する最大の予測候補の数。デフォルト: 50
+    
+
+* 開発環境
+CentOS 5.5
+gcc 4.1.2
+
+* バージョン
+v1.0 2010/11/23 ファーストリリース
+
+* 利用例
+# コンパイル
+$ g++ converter_test.cc -o converter_test
+$ g++ stakk_test.cc -o stakk_test
+$ g++ stakk_server.cc -o stakk_server
+
+# かな漢字変換
+$ ./converter_test -o wakati
+loading dictionary
+loading connection
+loading id definition
+input query:
+わたしのなまえはなかのです。
+私 の 名前 は 中野 です 。
+
+# 予測変換
+$ ./stakk_test -m predict
+loading dictionary
+loading connection
+input query:
+あり    (Input)
+ありがとう      ありがとう
+ありがとう      有難う
+ありがと        ありがと
+ありあんつかさいかいじょうほけん        アリアンツ火災海上保険
+ありえってぃ    アリエッティ
+etc.
+
+# スペル訂正
+$ ./stakk_test -m spell
+loading dictionary
+loading connection
+input query:
+れみおめろん    (Input)
+れみおろめん    レミオロメン
+あみおだろん    アミオダロン
+ぐーｇる    (Input)
+ぐーぐる        グーグル
+ぐーる  グール
+etc.
+
+# 形態素解析
+$ ./converter_test -r -o mecab
+loading dictionary
+loading connection
+loading id definition
+input query:
+東京都に住む
+東京都  とうきょうと    名詞,固有名詞,地域,一般,*,*,都名        名詞,接尾,地域,*,*,*,*
+に      に      助詞,格助詞,一般,*,*,*,に       助詞,格助詞,一般,*,*,*,に
+住む    すむ    動詞,自立,*,*,五段動詞,基本形,5 動詞,自立,*,*,五段動詞,基本形,5
+EOS
+
+# HTTP API サーバ
+$ ./stakk_server -p 50000 &
+loading dictionary
+loading connection
+loading id definition
+server ready
+$ curl "http://localhost:50000/api/convert/わたしのなまえはなかのです。&quot;
+私 の 名前 は 中野 です 。
+$ curl "http://localhost:50000/api/predict/きょうの&quot;
+きょうのうんせい        今日の運勢
+きょうのてんき  今日の天気
+きょうのばんぐみ        今日の番組
+きょうのひとこと        今日の一言
+etc.
+$ curl "http://localhost:50000/api/spell/れみおめろん&quot;
+れみおろめん    レミオロメン
+$ curl "http://localhost:50000/api/spell/れみおめろん/2&quot;
+れみおろめん    レミオロメン
+あみおだろん    アミオダロン
+
+# HTTP API サーバ（リバースモード）
+$ ./stakk_server -rp 50001 &
+loading dictionary
+loading connection
+loading id definition
+server ready
+$ curl "http://localhost:50001/api/convert/東京都に住む/mecab&quot;
+東京都  とうきょうと    名詞,固有名詞,地域,一般,*,*,都名        名詞,接尾,地域,*,*,*,*
+に      に      助詞,格助詞,一般,*,*,*,に       助詞,格助詞,一般,*,*,*,に
+住む    すむ    動詞,自立,*,*,五段動詞,基本形,5 動詞,自立,*,*,五段動詞,基本形,5
+EOS
+$ curl "http://localhost:50001/api/spell/テソション&quot;
+てんしょん      テンション
+ていしょん      テイション
+てーしょん      テーション
+
