@@ -1,8 +1,9 @@
 #ifndef TRIE_H
 #define TRIE_H
 
-template<typename CHAR, typename STRING, typename SSTREAM>
+template<typename CHAR>
 struct Trie {
+    typedef basic_string<CHAR> STRING;
     struct Entry {
         STRING key;
         int distance;
@@ -149,7 +150,7 @@ struct Trie {
         for (int i = 0; i < entries.size(); i++) {
             Entry entry = entries.at(i);
             for (int j = 0; j < entry.values.size(); j++) {
-                SSTREAM distance;
+                basic_stringstream<CHAR> distance;
                 distance << entry.distance;
                 result += entry.key + separator
                     + distance.str() + separator
@@ -168,8 +169,8 @@ struct Trie {
     static STRING linebreak;
     static STRING empty;
 };
-typedef Trie<char, string, stringstream> SimpleTrie;
-typedef Trie<wchar_t, wstring, wstringstream> WideTrie;
+typedef Trie<char> SimpleTrie;
+typedef Trie<wchar_t> WideTrie;
 
 template<>
 void WideTrie::load(string filename, int key, wchar_t separator) {

@@ -2,6 +2,10 @@
 #include "util.h"
 #include "ttrie.h"
 
+template <> string SimpleTrie::separator("\t");
+template <> string SimpleTrie::linebreak("\n");
+template <> string SimpleTrie::empty("");
+
 int main(int argc, char *argv[]) {
     int result;
     string filename = "data/dictionary.txt";
@@ -31,7 +35,7 @@ int main(int argc, char *argv[]) {
                 cout << SimpleTrie::format(*result) << endl;
         }
         if (mode == "all" || mode == "common") {
-            Trie<char, string>::Entries results;
+            SimpleTrie::Entries results;
             trie.common_prefix_search(input, "", results);
             cout << "common:" << endl;
             cout << SimpleTrie::format(results);
