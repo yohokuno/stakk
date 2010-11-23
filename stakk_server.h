@@ -24,7 +24,10 @@ struct StakkServer : public TrieServer {
         if (mode == "convert") {
             if (path.size() > 4)
                 output = path[4];
-        } else {
+        } else if (mode == "predict") {
+            if (path.size() > 4)
+                number = atoi(path[4].c_str());
+        } else if (mode == "spell") {
             if (path.size() > 4)
                 threshold = atoi(path[4].c_str());
             if (path.size() > 5)
