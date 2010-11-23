@@ -4,35 +4,61 @@ StaKK is Japanese Language Processer with following features.
 
 * Current Features
 Kana-Kanji converter
-Predictive Input (Query Suggest)
+Predictive Input or Query Suggestion
 Spelling Correction
 Morphological Analyzer
 HTTP API Server
 Raw Trie Operations
 
-Currently, StaKK uses dictionary of Mozc (Google Japanese IME).
+Currently, StaKK uses dictionary of Mozc, OSS version of Google Japanese IME.
 
 * Usage
 Common Options:
     command [-r] [-d dictionary] [-c conneciton]
-        -d dictionary:  mozc format dictionary file path (default: data/dictinoary.txt)
-        -c connection:  mozc format connection file path (default: data/connection.txt)
-        -i id.def:  mozc format class id definition file path (default: data/id.def)
+        -d dictionary:  mozc format dictionary file path. default: data/dictinoary.txt
+        -c connection:  mozc format connection file path. default: data/connection.txt
+        -i id.def:  mozc format class id definition file path. default: data/id.def
                 This option is not enable for stakk_test command.
         -r:     "Reverse" option for morphological analyzer.
                 If reverse option is set, input word surface instead of reading.
 
 Command Specific Options:
     converter_test [-i id.def] [-o mecab|wakati|yomi]
-        -i id.def:  Mozc format class id definition file path (default: data/id.def)
-        -o output:  Output format: one of "mecab", "wakati", "yomi" (default: mecab)
+        -i id.def:  Mozc format class id definition file path. default: data/id.def
+        -o output:  Output format: one of "mecab", "wakati", "yomi". default: mecab
 
     stakk_test [-m predict|spell] [-t threshold]
-        -m mode:        Retrieval mode: one of "predict", "spell" (default: spell)
-        -t threshold:   Spelling correction threhsold of edit distance (default: 1)
+        -m mode:        Retrieval mode: one of "predict", "spell". default: spell
+        -t threshold:   Spelling correction threhsold of edit distance. default: 1
 
     stakk_server [-i id.def] [-p port]
         -p port:    Port number of HTTP API server.
+
+HTTP API Server Path:
+    General Format
+        /apiname/method/query[options]
+        
+        apiname:    Any name can be acceptable. recommend: api
+        method:     One of "convert", "predict", "spell".
+        query:      Input Query of Japanese String.
+
+    Convert Method
+        /apiname/convert/query/format
+
+        format:     One of "wakati", "mecab", "yomi". default: wakati
+    
+    Predict Method
+        /apiname/predict/query/number
+
+        number:     Maximum Display Number of Candidates. default: 50
+
+    Spell Method
+        /apiname/predict/query/threshold/number
+
+        threshold:  Threshold of Edit Distance. default: 1
+        number:     Maximum Display Number of Candidates. default: 50
+
+    
 
 * Developer Environment
 CentOS 5.5
@@ -45,20 +71,13 @@ $ g++ stakk_test.cc -o stakk_test
 $ g++ stakk_server.cc -o stakk_server
 
 # Kana-Kanji Conversion
-$ ./converter_test
+$ ./converter_test -o wakati
 loading dictionary
 loading connection
 loading id definition
 input query:
-わたしのなまえはなかのです。    (Input)
-私      わたし  名詞,代名詞,一般,*,*,私 名詞,代名詞,一般,*,*,私
-の      の      助詞,連体化,*,*,*,*,の  助詞,連体化,*,*,*,*,の
-名前    なまえ  名詞,一般,*,*,*,*,*     名詞,一般,*,*,*,*,*
-は      は      助詞,係助詞,*,*,*,*,は  助詞,係助詞,*,*,*,*,は
-中野    なかの  名詞,固有名詞,地域,一般,*,*,*   名詞,固有名詞,地域,一般,*,*,*
-です    です    助動詞,*,*,*,特殊・デス,基本形,です     助動詞,*,*,*,特殊・デス,基本形,です
-。      。      記号,句点,*,*,*,*,*     記号,句点,*,*,*,*,*
-EOS
+わたしのなまえはなかのです。
+私 の 名前 は 中野 です 。
 
 # Predictive Input
 $ ./stakk_test -m predict
@@ -71,7 +90,7 @@ input query:
 ありがと        ありがと
 ありあんつかさいかいじょうほけん        アリアンツ火災海上保険
 ありえってぃ    アリエッティ
-(etc)
+etc.
 
 # Spelling Correction
 $ ./stakk_test -m spell
@@ -84,10 +103,10 @@ input query:
 ぐーｇる    (Input)
 ぐーぐる        グーグル
 ぐーる  グール
-(etc)
+etc.
 
 # Morphological Analyzer
-$ ./converter_test -r
+$ ./converter_test -r -o mecab
 loading dictionary
 loading connection
 loading id definition
@@ -111,15 +130,26 @@ $ curl "http://localhost:50000/api/predict/きょうの"
 きょうのてんき  今日の天気
 きょうのばんぐみ        今日の番組
 きょうのひとこと        今日の一言
-(etc)
+etc.
 $ curl "http://localhost:50000/api/spell/れみおめろん"
 れみおろめん    レミオロメン
+$ curl "http://localhost:50000/api/spell/れみおめろん/2"
+れみおろめん    レミオロメン
+あみおだろん    アミオダロン
 
-# HTTP API Server (Reverse Mode)
+# HTTP API Server with Reverse Mode
 $ ./stakk_server -rp 50001 &
 loading dictionary
 loading connection
 loading id definition
 server ready
-
+$ curl "http://localhost:50001/api/convert/東京都に住む/mecab"
+東京都  とうきょうと    名詞,固有名詞,地域,一般,*,*,都名        名詞,接尾,地域,*,*,*,*
+に      に      助詞,格助詞,一般,*,*,*,に       助詞,格助詞,一般,*,*,*,に
+住む    すむ    動詞,自立,*,*,五段動詞,基本形,5 動詞,自立,*,*,五段動詞,基本形,5
+EOS
+$ curl "http://localhost:50001/api/spell/テソション"
+てんしょん      テンション
+ていしょん      テイション
+てーしょん      テーション
 
