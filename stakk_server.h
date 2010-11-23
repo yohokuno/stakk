@@ -5,6 +5,7 @@ struct StakkServer : public TrieServer {
     Stakk &stakk;
     Converter &converter;
     int threshold, number;
+    string output;
 
     //init trie and stakk references
     StakkServer(ListTrieWide &trie_, Stakk &stakk_, Converter &converter_)
@@ -12,6 +13,7 @@ struct StakkServer : public TrieServer {
     {
         threshold = 1;
         number = 50;
+        output = "wakati";
     }
 
     //parse request path
@@ -19,10 +21,15 @@ struct StakkServer : public TrieServer {
         if (path.size() < 4)
             return L"";
         mode = path[2];
-        if (path.size() > 4)
-            threshold = atoi(path[4].c_str());
-        if (path.size() > 5)
-            number = atoi(path[5].c_str());
+        if (mode == "convert") {
+            if (path.size() > 4)
+                output = path[4];
+        } else {
+            if (path.size() > 4)
+                threshold = atoi(path[4].c_str());
+            if (path.size() > 5)
+                number = atoi(path[5].c_str());
+        }
         return widen(urldecode(path[3]));
     }
 
@@ -32,7 +39,6 @@ struct StakkServer : public TrieServer {
 
         //converter
         if (mode == "convert") { 
-            string output = "wakati";
             vector<Converter::Node> nodes = converter.convert(input);
             return converter.format(nodes, output);
         }
