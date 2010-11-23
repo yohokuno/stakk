@@ -137,10 +137,10 @@ struct Trie {
         }
     }
     void load(string filename, int key, CHAR separator) {
-        ifstream ifs(filename.c_str());
-        string line;
+        basic_fstream<CHAR> ifs(filename.c_str());
+        String line;
         while (getline(ifs, line)) {
-            vector<string> splited = split(line, separator);
+            vector<String> splited = split(line, separator);
             insert(splited[key], line);
         }
         ifs.close();
@@ -164,6 +164,15 @@ struct Trie {
         for (int i = 0; i < values.size(); i++)
             result += values.at(i) + linebreak;
         return result;
+    }
+    static vector<String> split(String s, CHAR c) {
+        vector<String> v;
+        for (int p = 0; (p = s.find(c)) != s.npos; ) {
+            v.push_back(s.substr(0, p));
+            s = s.substr(p + 1);
+        }
+        v.push_back(s);
+        return v;
     }
     static String separator;
     static String linebreak;
