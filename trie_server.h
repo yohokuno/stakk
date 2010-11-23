@@ -38,7 +38,7 @@ struct TrieServer : public Server {
         }
         if (mode == "all" || mode == "fuzzy") {
             ListTrieWide::Entries results;
-            trie.fuzzy_search_ex(input, 2, results);
+            trie.fuzzy_search_ex(input, 1, results);
             response += ListTrieWide::format(results);
         }
         return response;
