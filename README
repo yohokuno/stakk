@@ -38,7 +38,7 @@ HTTP API Server Path:
     General Format
         /apiname/method/query[options]
         
-        apiname:    Any name can be acceptable. recommend: api
+        apiname:    Any name is acceptable. recommend: api
         method:     One of "convert", "predict", "spell".
         query:      Input Query of Japanese String.
 
@@ -56,6 +56,7 @@ HTTP API Server Path:
         /apiname/predict/query/threshold/number
 
         threshold:  Threshold of Edit Distance. default: 1
+                    DON'T set this larger than 2, which will down the server.
         number:     Maximum Display Number of Candidates. default: 50
 
     
@@ -63,6 +64,9 @@ HTTP API Server Path:
 * Developer Environment
 CentOS 5.5
 gcc 4.1.2
+
+* Version
+v1.0 2010/11/23 first release.
 
 * Examples
 # Compilation

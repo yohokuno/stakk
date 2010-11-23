@@ -1,0 +1,18 @@
+テスト用APIサーバー
+
+shisobu.in にテスト用のAPIサーバーを立てています。
+リバースプロキシでAPI名が/api/のときと/api2/のときでノーマルとリバースを使い分けています。
+
+※本APIはテスト用です。予告なく終了する可能性がありますのでご了承ください。
+
+使用例（日本語部分はURLエンコードが必要）
+http://nokuno.shisobu.in/api/convert/わたしのなまえはなかのです。
+http://nokuno.shisobu.in/api/predict/ありが/10
+http://nokuno.shisobu.in/api/spell/ぐーｇる
+http://nokuno.shisobu.in/api/spell/れみおめろん/2
+
+http://nokuno.shisobu.in/api2/convert/東京都に住む/mecab
+http://nokuno.shisobu.in/api2/predict/東方
+http://nokuno.shisobu.in/api2/spell/テソション
+
+APIの詳細についてはREADMEをご覧ください。
