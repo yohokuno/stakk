@@ -1,7 +1,7 @@
 #ifndef TRIE_H
 #define TRIE_H
 
-template<typename CHAR, typename STRING>
+template<typename CHAR, typename STRING, typename SSTREAM>
 struct Trie {
     struct Entry {
         STRING key;
@@ -118,7 +118,7 @@ struct Trie {
     }
     void fuzzy_search_ex(STRING query, int distance, Entries &results) {
         Entries entries;
-        fuzzy_search(query, "", distance, entries);
+        fuzzy_search(query, empty, distance, entries);
         for (int i = 0; i < entries.size(); i++) {
             Entry entry = entries.at(i);
             bool flag = false;
@@ -149,28 +149,30 @@ struct Trie {
         for (int i = 0; i < entries.size(); i++) {
             Entry entry = entries.at(i);
             for (int j = 0; j < entry.values.size(); j++) {
-                stringstream distance;
+                SSTREAM distance;
                 distance << entry.distance;
-                result += entry.key + "\t" + distance.str() + "\t" + entry.values.at(j) + "\n";
+                result += entry.key + separator
+                    + distance.str() + separator
+                    + entry.values.at(j) + linebreak;
             }
         }
         return result;
     }
     static STRING format(vector<STRING> values) {
-        STRING result = "";
+        STRING result;
         for (int i = 0; i < values.size(); i++)
-            result += values.at(i) + "\n";
+            result += values.at(i) + linebreak;
         return result;
     }
     static STRING separator;
     static STRING linebreak;
     static STRING empty;
 };
-typedef Trie<char, string> SimpleTrie;
-typedef Trie<wchar_t, wstring> WideTrie;
+typedef Trie<char, string, stringstream> SimpleTrie;
+typedef Trie<wchar_t, wstring, wstringstream> WideTrie;
 
 template<>
-void Trie<wchar_t, wstring>::load(string filename, int key, wchar_t separator) {
+void WideTrie::load(string filename, int key, wchar_t separator) {
     wifstream ifs(filename.c_str());
     wstring line;
     while (getline(ifs, line)) {
