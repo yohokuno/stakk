@@ -1,7 +1,10 @@
 StaKK: Statistical Kana Kanji conversion engine
 
 Current Feature
- Trie supports common prefix / predictive / fuzzy search
+ Trie Data Structure with Wide Character
+ Common Prefix Search
+ Predictive Search
+ Fuzzy search
  Kana-Kanji Converter
  Spelling Correction
  Predictive Input
@@ -10,8 +13,8 @@ Current Feature
  Mozc Dictionary and Language Model Data
 
 TODO
+ HTML form tag Parameter URL Parser
  Event Handling with epoll or libevent
- URL Parser for Parameter Customization
  Sequencial Spelling Correction
  Sequencial Predictive Input
  Support UTF-8
@@ -25,4 +28,4 @@ Dream
  Speech Recognition
  Machine Translation
  Dialogue System
-
+ Dynamic Update
