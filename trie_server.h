@@ -27,23 +27,20 @@ struct TrieServer : public Server {
     virtual wstring get_result(vector<string> path) {
         wstring response = L"";
         wstring input = parse_path(path);
-        if (mode == "all" || mode == "search") {
+        if (mode == "search") {
             vector<wstring> *result;
             result = trie.search(input);
             if (result)
                 response += ListTrieWide::format(*result);
-        }
-        if (mode == "all" || mode == "common") {
+        } else if (mode == "common") {
             ListTrieWide::Entries results;
             trie.common_prefix_search(input, L"", results);
             response +=  ListTrieWide::format(results);
-        }
-        if (mode == "all" || mode == "predict") {
+        } else if (mode == "predict") {
             ListTrieWide::Entries results;
             trie.predictive_search(input, L"", results);
             response += ListTrieWide::format(results);
-        }
-        if (mode == "all" || mode == "fuzzy") {
+        } else if (mode == "fuzzy") {
             ListTrieWide::Entries results;
             trie.fuzzy_search_ex(input, threshold, results);
             response += ListTrieWide::format(results);
