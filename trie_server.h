@@ -10,10 +10,10 @@ struct TrieServer : public Server {
 
     //parse request path
     wstring parse_path(vector<string> &path) {
-        if (path.size() != 3)
+        if (path.size() != 4)
             return L"";
-        mode = path[1];
-        return widen(urldecode(path[2]));
+        mode = path[2];
+        return widen(urldecode(path[3]));
     }
 
     //get result
