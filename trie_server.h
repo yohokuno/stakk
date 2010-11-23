@@ -4,6 +4,7 @@
 struct TrieServer : public Server {
     string filename, mode;
     ListTrieWide &trie;
+    int threshold;
 
     //init trie reference
     TrieServer(ListTrieWide &trie_) : trie(trie_) {}
@@ -13,6 +14,12 @@ struct TrieServer : public Server {
         if (path.size() != 4)
             return L"";
         mode = path[2];
+        if (mode == "fuzzy") {
+            if (path.size() > 4)
+                threshold = atoi(path[4].c_str());
+            else
+                threshold = 1;
+        }
         return widen(urldecode(path[3]));
     }
 
@@ -38,7 +45,7 @@ struct TrieServer : public Server {
         }
         if (mode == "all" || mode == "fuzzy") {
             ListTrieWide::Entries results;
-            trie.fuzzy_search_ex(input, 1, results);
+            trie.fuzzy_search_ex(input, threshold, results);
             response += ListTrieWide::format(results);
         }
         return response;

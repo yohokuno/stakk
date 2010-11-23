@@ -4,16 +4,13 @@
 struct StakkServer : public TrieServer {
     Stakk &stakk;
     Converter &converter;
-    int threshold, number;
+    int number;
     string output;
 
     //init trie and stakk references
     StakkServer(ListTrieWide &trie_, Stakk &stakk_, Converter &converter_)
         : TrieServer(trie_), stakk(stakk_), converter(converter_)
     {
-        threshold = 1;
-        number = 50;
-        output = "wakati";
     }
 
     //parse request path
@@ -24,14 +21,22 @@ struct StakkServer : public TrieServer {
         if (mode == "convert") {
             if (path.size() > 4)
                 output = path[4];
+            else
+                output = "wakati";
         } else if (mode == "predict") {
             if (path.size() > 4)
                 number = atoi(path[4].c_str());
+            else
+                number = 50;
         } else if (mode == "spell") {
             if (path.size() > 4)
                 threshold = atoi(path[4].c_str());
+            else
+                threshold = 1;
             if (path.size() > 5)
                 number = atoi(path[5].c_str());
+            else
+                number = 50;
         }
         return widen(urldecode(path[3]));
     }
