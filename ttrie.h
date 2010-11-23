@@ -3,12 +3,12 @@
 
 template<typename CHAR>
 struct Trie {
-    typedef basic_string<CHAR> STRING;
+    typedef basic_string<CHAR> String;
     struct Entry {
-        STRING key;
+        String key;
         int distance;
-        vector<STRING> values;
-        Entry(STRING _key, int _distance, vector<STRING> _values) {
+        vector<String> values;
+        Entry(String _key, int _distance, vector<String> _values) {
             key = _key;
             distance = _distance;
             values = _values;
@@ -18,12 +18,12 @@ struct Trie {
     typedef pair<CHAR, Trie> Pair;
     typedef typename list<Pair>::iterator Itr;
     list<Pair> children;
-    vector<STRING> values;
+    vector<String> values;
 
-    void insert(STRING key, STRING value) {
+    void insert(String key, String value) {
         if (key.length() != 0) {
             CHAR first = key[0];
-            STRING rest = key.substr(1);
+            String rest = key.substr(1);
             Trie *child = find(first);
             if (child == NULL) {
                 children.push_back(Pair(first, Trie()));
@@ -42,20 +42,20 @@ struct Trie {
         }
         return NULL;
     }
-    vector<STRING> *search(STRING key) {
+    vector<String> *search(String key) {
         if (!key.length())
             if (values.size())
                 return &values;
             else
                 return NULL;
         CHAR first = key[0];
-        STRING rest = key.substr(1);
+        String rest = key.substr(1);
         Trie *child = find(first);
         if (child != NULL)
             return child->search(rest);
         return NULL;
     }
-    void common_prefix_search(STRING query, STRING key, Entries &results) {
+    void common_prefix_search(String query, String key, Entries &results) {
         if (values.size())
             results.push_back(Entry(key, 0, values));
         if (!query.length() || !children.size())
@@ -64,7 +64,7 @@ struct Trie {
         if (child != NULL)
             child->common_prefix_search(query.substr(1), key+query.at(0), results);
     }
-    void predictive_search(STRING query, STRING key, Entries &results) {
+    void predictive_search(String query, String key, Entries &results) {
         if (query.length() <= key.length() && values.size())
             results.push_back(Entry(key, 0, values));
         if (!children.size())
@@ -80,7 +80,7 @@ struct Trie {
             }
         }
     }
-    void fuzzy_search(STRING query, STRING key, int distance, Entries &results) {
+    void fuzzy_search(String query, String key, int distance, Entries &results) {
         if (!query.length() && values.size())
             results.push_back(Entry(key, distance, values));
         if (!children.size())
@@ -117,7 +117,7 @@ struct Trie {
             }
         }
     }
-    void fuzzy_search_ex(STRING query, int distance, Entries &results) {
+    void fuzzy_search_ex(String query, int distance, Entries &results) {
         Entries entries;
         fuzzy_search(query, empty, distance, entries);
         for (int i = 0; i < entries.size(); i++) {
@@ -145,8 +145,8 @@ struct Trie {
         }
         ifs.close();
     }
-    static STRING format(Entries entries) {
-        STRING result;
+    static String format(Entries entries) {
+        String result;
         for (int i = 0; i < entries.size(); i++) {
             Entry entry = entries.at(i);
             for (int j = 0; j < entry.values.size(); j++) {
@@ -159,15 +159,15 @@ struct Trie {
         }
         return result;
     }
-    static STRING format(vector<STRING> values) {
-        STRING result;
+    static String format(vector<String> values) {
+        String result;
         for (int i = 0; i < values.size(); i++)
             result += values.at(i) + linebreak;
         return result;
     }
-    static STRING separator;
-    static STRING linebreak;
-    static STRING empty;
+    static String separator;
+    static String linebreak;
+    static String empty;
 };
 typedef Trie<char> SimpleTrie;
 typedef Trie<wchar_t> WideTrie;
