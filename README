@@ -12,6 +12,19 @@ Raw Trie Operations
 
 Currently, StaKK uses dictionary of Mozc, OSS version of Google Japanese IME.
 
+* Reverse Mode
+StaKK implements two mode: normal mode and reverse mode.
+
+Normal Mode: Input Reading or Kana, Output Word or Kanji.
+Reverse Mode:   Input Word or Kanji, Output Reading or POS tag etc.
+
+These two methods can be applied for the purpos in the following table.
+
+| Method        | Normal Mode           | Reverse Mode          |
+| Convert       | Kana-Kanji Conversion | Morphological Analyze |
+| Predict       | Predictive Input      | Query Suggestion      |
+| Spell Correct | Correct with Reading  | Correct with Surface  |
+
 * Usage
 Common Options:
     command [-r] [-d dictionary] [-c conneciton]
