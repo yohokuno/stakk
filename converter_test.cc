@@ -3,6 +3,7 @@
 #include "trie.h"
 #include "connection.h"
 #include "converter.h"
+using namespace Stakk;
 
 int main(int argc, char *argv[]) {
     //parse option
