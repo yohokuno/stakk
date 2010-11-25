@@ -2,6 +2,8 @@
 #include "util.h"
 #include "trie.h"
 
+using namespace Stakk;
+
 int main(int argc, char *argv[]) {
     int result;
     string filename = "data/dictionary.txt";

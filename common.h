@@ -21,6 +21,4 @@
 #include <string.h>
 #include <limits.h>
 
-using namespace std;
-
 #endif
