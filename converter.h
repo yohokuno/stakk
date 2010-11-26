@@ -1,9 +1,7 @@
 #ifndef CONVERTER_H
 #define CONVERTER_H
 
-namespace Stakk {
-    using namespace std;
-
+namespace stakk {
     struct Converter {
         ListTrieWide &trie;
         Connection &connection;

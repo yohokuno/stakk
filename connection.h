@@ -1,9 +1,7 @@
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
-namespace Stakk {
-    using namespace std;
-
+namespace stakk {
     struct Connection {
         vector<unsigned short> connection;
         static const int size = 3033;

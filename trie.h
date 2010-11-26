@@ -1,9 +1,7 @@
 #ifndef TRIE_H
 #define TRIE_H
 
-namespace Stakk {
-    using namespace std;
-
+namespace stakk {
     struct ListTrieWide {
         struct Entry {
             wstring key;

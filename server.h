@@ -1,9 +1,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-namespace Stakk {
-    using namespace std;
-
+namespace stakk {
     struct Server { 
         int port;
 

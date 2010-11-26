@@ -1,9 +1,8 @@
 #ifndef UTIL_H
 #define UTIL_H
+#include "common.h"
 
-namespace Stakk {
-    using namespace std;
-
+namespace stakk {
     //wide to multi
     inline string narrow(wstring src) {
         char *mbs = new char[src.length() * MB_CUR_MAX + 1];

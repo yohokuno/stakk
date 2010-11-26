@@ -1,8 +1,7 @@
 #include "common.h"
 #include "util.h"
 #include "trie.h"
-
-using namespace Stakk;
+using namespace stakk;
 
 int main(int argc, char *argv[]) {
     int result;
@@ -47,7 +46,7 @@ int main(int argc, char *argv[]) {
         }
         if (mode == "all" || mode == "fuzzy") {
             ListTrieWide::Entries results;
-            trie.fuzzy_search_ex(input, 2, results);
+            trie.fuzzy_search_ex(input, 1, results);
             wcout << "fuzzy:" << endl;
             wcout << ListTrieWide::format(results);
         }

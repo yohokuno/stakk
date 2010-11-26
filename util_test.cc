@@ -1,9 +1,5 @@
-#include <iostream>
-#include <sys/types.h>
-#include <vector>
-#include <string>
 #include "util.h"
-using namespace Stakk;
+using namespace stakk;
 
 int main() {
     string input = "これはテストです。";

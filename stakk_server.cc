@@ -7,6 +7,7 @@
 #include "server.h"
 #include "trie_server.h"
 #include "stakk_server.h"
+using namespace stakk;
 
 int main(int argc, char *argv[]) {
     //parse option

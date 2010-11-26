@@ -21,4 +21,7 @@
 #include <string.h>
 #include <limits.h>
 
+namespace stakk {
+    using namespace std;
+}
 #endif
