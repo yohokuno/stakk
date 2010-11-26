@@ -1,6 +1,7 @@
 #ifndef TRIE_SERVER_H
 #define TRIE_SERVER
 
+#include "common.h"
 namespace stakk {
     struct TrieServer : public Server {
         string filename, mode;

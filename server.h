@@ -1,6 +1,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+#include "common.h"
 namespace stakk {
     struct Server { 
         int port;

@@ -1,6 +1,7 @@
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
+#include "common.h"
 namespace stakk {
     struct Connection {
         vector<unsigned short> connection;

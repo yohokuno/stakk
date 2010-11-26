@@ -1,6 +1,9 @@
 #ifndef TRIE_H
 #define TRIE_H
 
+#include "common.h"
+#include "util.h"
+
 namespace stakk {
     struct ListTrieWide {
         struct Entry {

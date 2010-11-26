@@ -1,6 +1,7 @@
 #ifndef STAKK_H
 #define STAKK_H
 
+#include "common.h"
 namespace stakk {
     struct Stakk {
         ListTrieWide &trie;

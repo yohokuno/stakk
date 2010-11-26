@@ -1,7 +1,7 @@
 #ifndef UTIL_H
 #define UTIL_H
-#include "common.h"
 
+#include "common.h"
 namespace stakk {
     //wide to multi
     inline string narrow(wstring src) {

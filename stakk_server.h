@@ -1,6 +1,7 @@
 #ifndef STAKK_SERVER_H
 #define STAKK_SERVER_H
 
+#include "common.h"
 namespace stakk {
     struct StakkServer : public TrieServer {
         Stakk &stakk;
