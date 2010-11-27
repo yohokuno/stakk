@@ -4,7 +4,7 @@ using namespace stakk;
 int main(int argc, char *argv[]) {
     //parse option
     int result;
-    int port = 54633;
+    int port = 50000;
     string dictionary_ = "data/dictionary.txt";
     string connection_ = "data/connection.txt";
     string id_def = "data/id.def";

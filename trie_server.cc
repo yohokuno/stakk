@@ -3,7 +3,7 @@ using namespace stakk;
 
 int main(int argc, char *argv[]) {
     //parse option
-    int result, port = 54633;
+    int result, port = 50000;
     string filename = "data/dictionary.txt";
     bool reverse = false;
     try { locale::global(locale("")); } catch (...) {}

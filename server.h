@@ -11,7 +11,7 @@ namespace stakk {
 
         // set locale
         Server() {
-            port = 54633;
+            port = 50000;
         }
 
         //parse http request
