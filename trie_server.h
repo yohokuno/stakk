@@ -2,6 +2,10 @@
 #define TRIE_SERVER
 
 #include "common.h"
+#include "util.h"
+#include "trie.h"
+#include "server.h"
+
 namespace stakk {
     struct TrieServer : public Server {
         string filename, mode;

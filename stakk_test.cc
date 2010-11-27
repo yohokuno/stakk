@@ -1,7 +1,3 @@
-#include "common.h"
-#include "util.h"
-#include "trie.h"
-#include "connection.h"
 #include "stakk.h"
 using namespace stakk;
 

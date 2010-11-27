@@ -2,6 +2,10 @@
 #define STAKK_H
 
 #include "common.h"
+#include "util.h"
+#include "trie.h"
+#include "connection.h"
+
 namespace stakk {
     struct Stakk {
         ListTrieWide &trie;
