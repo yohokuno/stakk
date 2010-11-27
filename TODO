@@ -12,14 +12,15 @@ HTTP API Server
 Mozc Dictionary and Language Model Data
 
 * TODO
+Support UTF-8
 HTML form tag Parameter URL Parser
 Event Handling with epoll or libevent
 Sequencial Spelling Correction
 Sequencial Predictive Input
-Support UTF-8
 Value Offset Type Methodology
 Dynamic Update
 MA with Surface -> Spell Correction with Reading combination
+Template Library
 
 * Dream
 LOUDS Trie
