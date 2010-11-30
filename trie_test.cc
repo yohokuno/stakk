@@ -5,21 +5,29 @@ int main(int argc, char *argv[]) {
     int result;
     string filename = "data/dictionary.txt";
     string mode = "all";
+    bool reverse = false;
     try { locale::global(locale("")); } catch (...) {}
 
-    while((result = getopt(argc, argv, "f:m:")) != -1) {
+    while((result = getopt(argc, argv, "f:m:r")) != -1) {
         switch(result) {
             case 'f':
                 filename = optarg;
+                break;
+            case 'r':
+                reverse = true;
                 break;
             case 'm':
                 mode = optarg;
                 break;
         }
     }
-    ListTrieWide trie;
     wcout << "inserting.." << endl;
-    trie.load(filename, 0, L'\t');
+    ListTrieWide trie;
+    int field = reverse ? 4 : 0;
+    if (!trie.load(filename, field, L'\t')) {
+        cout << filename << " is not found." << endl;
+        exit(0);
+    }
     wcout << "input kana:" << endl;
     wstring input;
     while (wcin >> input) {

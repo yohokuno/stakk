@@ -24,10 +24,11 @@ int main(int argc, char *argv[]) {
 
     wcout << "loading dictionary" << endl;
     ListTrieWide trie;
-    if (reverse)
-        trie.load(filename, 4, L'\t');
-    else
-        trie.load(filename, 0, L'\t');
+    int field = reverse ? 4 : 0;
+    if (!trie.load(filename, field, L'\t')) {
+        cout << filename << " is not found." << endl;
+        exit(0);
+    }
 
     TrieServer server(trie);
     server.port = port;

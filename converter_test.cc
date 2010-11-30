@@ -37,16 +37,25 @@ int main(int argc, char *argv[]) {
 
     wcout << "loading dictionary" << endl;
     ListTrieWide trie;
-    if (reverse)
-        trie.load(dictionary_, 4, L'\t');
-    else
-        trie.load(dictionary_, 0, L'\t');
+    int field = reverse ? 4 : 0;
+    if (!trie.load(dictionary_, field, L'\t')) {
+        cout << dictionary_ << " is not found." << endl;
+        exit(0);
+    }
 
     wcout << "loading connection" << endl;
-    Connection connection(connection_);
+    Connection connection;
+    if (!connection.load(connection_)) {
+        cout << connection_ << " is not found." << endl;
+        exit(0);
+    }
 
     wcout << "loading id definition" << endl;
-    Definition definition(id_def);
+    Definition definition;
+    if (!definition.load(id_def)) {
+        cout << id_def << " is not found." << endl;
+        exit(0);
+    }
 
     Converter converter(trie, connection, definition);
     wstring line;

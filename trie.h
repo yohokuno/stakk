@@ -145,14 +145,17 @@ namespace stakk {
                 i->second.display(key + i->first);
             }
         }
-        void load(string filename, int key, wchar_t separator) {
+        bool load(string filename, int key, wchar_t separator) {
             wifstream ifs(filename.c_str());
+            if (!ifs.is_open())
+                return false;
             wstring line;
             while (getline(ifs, line)) {
                 vector<wstring> splited = split_w(line, separator);
                 insert(splited[key], line);
             }
             ifs.close();
+            return true;
         }
         static wstring format(Entries entries) {
             wstring result = L"";
