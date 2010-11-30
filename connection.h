@@ -8,8 +8,7 @@ namespace stakk {
         static const int size = 3033;
 
         Connection(string filename, bool full = true) {
-            wifstream ifs;
-            ifs.open(filename.c_str());
+            wifstream ifs(filename.c_str());
             wstring line;
             getline(ifs, line);
             if (full)
@@ -37,8 +36,7 @@ namespace stakk {
         wstring definition[size];
 
         Definition(string filename) {
-            wifstream ifs;
-            ifs.open(filename.c_str());
+            wifstream ifs(filename.c_str());
             wstring line;
             while (getline(ifs, line)) {
                 int index;
