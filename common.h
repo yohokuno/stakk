@@ -21,6 +21,7 @@
 #include <string.h>
 #include <limits.h>
 #include <stdint.h>
+#include <assert.h>
 
 namespace stakk {
     using namespace std;

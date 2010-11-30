@@ -8,3 +8,5 @@ all:
 	$(CC) $(CPPFLAGS) converter_test.cc -o converter_test
 	$(CC) $(CPPFLAGS) stakk_test.cc -o stakk_test
 	$(CC) $(CPPFLAGS) stakk_server.cc -o stakk_server
+	$(CC) $(CPPFLAGS) test/util_test.cc -o test/util_test
+	test/util_test
