@@ -20,6 +20,7 @@
 #include <math.h>
 #include <string.h>
 #include <limits.h>
+#include <stdint.h>
 
 namespace stakk {
     using namespace std;

@@ -24,8 +24,8 @@ namespace stakk {
     inline string urldecode(string url) {
         string buffer = "";
 
-        for (int i = 0; i < url.length(); i++) {
-            int j = i ;
+        for (size_t i = 0; i < url.length(); i++) {
+            size_t j = i ;
             char ch = url.at(j);
             if (ch == '%'){
                 char tmpstr[] = "0x0__";
@@ -44,7 +44,7 @@ namespace stakk {
     //split
     inline vector<string> split(string s, char c) {
         vector<string> v;
-        for (int p = 0; (p = s.find(c)) != s.npos; ) {
+        for (size_t p = 0; (p = s.find(c)) != s.npos; ) {
             v.push_back(s.substr(0, p));
             s = s.substr(p + 1);
         }
@@ -54,7 +54,7 @@ namespace stakk {
     //split wide
     inline vector<wstring> split_w(wstring s, wchar_t c) {
         vector<wstring> v;
-        for (int p = 0; (p = s.find(c)) != s.npos; ) {
+        for (size_t p = 0; (p = s.find(c)) != s.npos; ) {
             v.push_back(s.substr(0, p));
             s = s.substr(p + 1);
         }
@@ -64,7 +64,7 @@ namespace stakk {
     //join
     inline string join(vector<string> v, char c) {
         string result = "";
-        for (int i = 0; i < v.size(); i++) {
+        for (size_t i = 0; i < v.size(); i++) {
             result += v[i] + c;
         }
         return result.substr(0, result.length()-1);
@@ -73,7 +73,7 @@ namespace stakk {
     //join wide
     inline wstring join_w(vector<wstring> v, wchar_t c) {
         wstring result = L"";
-        for (int i = 0; i < v.size(); i++) {
+        for (size_t i = 0; i < v.size(); i++) {
             result += v[i] + c;
         }
         return result.substr(0, result.length()-1);
@@ -96,7 +96,7 @@ namespace stakk {
     inline size_t utf8_len(const char *src, size_t length) {
         const char *begin = src;
         const char *end = src + length;
-        int result = 0;
+        size_t result = 0;
         while (begin < end) {
             ++result;
             begin += utf8_char(begin);
@@ -127,7 +127,7 @@ namespace stakk {
     vector<string> utf8_split(string input) {
         vector <string> result;
         const char *p = input.c_str();
-        for (int i=0; i<input.length(); i+=utf8_char(p+i)) {
+        for (size_t i=0; i<input.length(); i+=utf8_char(p+i)) {
             result.push_back(input.substr(i, utf8_char(p+i)));
         }
         return result;
