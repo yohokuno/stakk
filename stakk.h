@@ -36,10 +36,10 @@ namespace stakk {
         void correct(wstring input, int threshold, vector<Entry> &results) {
             ListTrieWide::Entries entries;
             trie.fuzzy_search_ex(input, threshold, entries);
-            for (int i = 0; i < entries.size(); i++) {
+            for (size_t i = 0; i < entries.size(); i++) {
                 wstring yomi = entries[i].key;
                 int distance = entries[i].distance;
-                for (int j = 0; j < entries[i].values.size(); j++) {
+                for (size_t j = 0; j < entries[i].values.size(); j++) {
                     vector<wstring> splited = split_w(entries[i].values[j], L'\t');
                     Entry entry(splited, yomi);
                     int total = entry.cost + connection.get(0, entry.lid);
@@ -54,10 +54,10 @@ namespace stakk {
         void predict(wstring input, vector<Entry> &results) {
             ListTrieWide::Entries entries;
             trie.predictive_search(input, L"", entries);
-            for (int i = 0; i < entries.size(); i++) {
+            for (size_t i = 0; i < entries.size(); i++) {
                 wstring yomi = entries[i].key;
                 int length = yomi.length()-input.length();
-                for (int j = 0; j < entries[i].values.size(); j++) {
+                for (size_t j = 0; j < entries[i].values.size(); j++) {
                     vector<wstring> splited = split_w(entries[i].values[j], L'\t');
                     Entry entry(splited, yomi);
                     int total = entry.cost + connection.get(0, entry.lid);

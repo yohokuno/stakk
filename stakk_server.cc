@@ -8,7 +8,6 @@ int main(int argc, char *argv[]) {
     string dictionary_ = "data/dictionary.txt";
     string connection_ = "data/connection.txt";
     string id_def = "data/id.def";
-    bool debug = false;
     bool reverse = false;
     try { locale::global(locale("")); } catch (...) {}
 

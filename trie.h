@@ -122,10 +122,10 @@ namespace stakk {
         void fuzzy_search_ex(wstring query, int distance, Entries &results) {
             Entries entries;
             fuzzy_search(query, L"", distance, entries);
-            for (int i = 0; i < entries.size(); i++) {
+            for (size_t i = 0; i < entries.size(); i++) {
                 Entry entry = entries.at(i);
                 bool flag = false;
-                for (int j = 0; j < results.size(); j++) {
+                for (size_t j = 0; j < results.size(); j++) {
                     if (entry.key == results.at(j).key) {
                         if (entry.distance > results.at(j).distance)
                             results[j] = entry;
@@ -159,9 +159,9 @@ namespace stakk {
         }
         static wstring format(Entries entries) {
             wstring result = L"";
-            for (int i = 0; i < entries.size(); i++) {
+            for (size_t i = 0; i < entries.size(); i++) {
                 ListTrieWide::Entry entry = entries.at(i);
-                for (int j = 0; j < entry.values.size(); j++) {
+                for (size_t j = 0; j < entry.values.size(); j++) {
                     wchar_t buffer[256];
                     swprintf(buffer, sizeof(buffer)/sizeof(wchar_t), L"%d", entry.distance);
                     result += entry.key + L"\t" + buffer + L"\t" + entry.values.at(j) + L"\n";
@@ -171,7 +171,7 @@ namespace stakk {
         }
         static wstring format(vector<wstring> values) {
             wstring result = L"";
-            for (int i = 0; i < values.size(); i++)
+            for (size_t i = 0; i < values.size(); i++)
                 result += values.at(i) + L"\n";
             return result;
         }

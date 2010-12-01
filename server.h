@@ -18,13 +18,13 @@ namespace stakk {
         vector<string> parse_request(string request) {
             vector<string> splited = split(request, '\n');
             vector<string> path;
-            for (int i = 0; i < splited.size(); i++) {
+            for (size_t i = 0; i < splited.size(); i++) {
                 if (splited[i].find("GET") == 0) {
                     vector<string> parsed = split(splited[i], ' ');
                     if (parsed.size() < 1)
                         continue;
                     path = split(parsed[1], '/');
-                    for (int j = 0; j < path.size(); j++) {
+                    for (size_t j = 0; j < path.size(); j++) {
                         path[j] = urldecode(path[j]);
                     }
                 }

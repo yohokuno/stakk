@@ -3,7 +3,7 @@ using namespace stakk;
 
 int main() {
     string input = "これはテストです。";
-    int length = 9;
+    size_t length = 9;
     assert(utf8_len(input.c_str(), input.length()) == length);
     assert(utf8_char(input.c_str()) == 3);
 

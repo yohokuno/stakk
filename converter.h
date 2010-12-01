@@ -54,12 +54,12 @@ namespace stakk {
             lattice[lattice.size()-1].push_back(bos);
 
             //common prefix search
-            for (int i = 0; i < input.length(); i++) {
+            for (size_t i = 0; i < input.length(); i++) {
                 ListTrieWide::Entries entries;
                 wstring query = input.substr(i);
                 trie.common_prefix_search(query, L"", entries);
-                for (int j = 0; j < entries.size(); j++) {
-                    for (int k = 0; k < entries[j].values.size(); k++) {
+                for (size_t j = 0; j < entries.size(); j++) {
+                    for (size_t k = 0; k < entries[j].values.size(); k++) {
                         Node node(split_w(entries[j].values[k], L'\t'), entries[j].key);
                         int index = i + entries[j].key.length();
                         node.index = lattice[index].size();
@@ -68,13 +68,13 @@ namespace stakk {
                 }
             }
             //forward search
-            for (int i = 0; i < lattice.size(); i++) {
-                for (int j = 0; j < lattice[i].size(); j++) {
+            for (size_t i = 0; i < lattice.size(); i++) {
+                for (size_t j = 0; j < lattice[i].size(); j++) {
                     int index = i - lattice[i][j].key.length();
                     if (index < 0 || lattice[index].size() == 0)
                         continue;
                     int best_score = -1, best_index = -1;
-                    for (int k = 0; k < lattice[index].size(); k++) {
+                    for (size_t k = 0; k < lattice[index].size(); k++) {
                         unsigned short lid = lattice[index][k].rid;
                         unsigned short rid = lattice[i][j].lid;
                         int transition = connection.get(lid, rid);
@@ -90,8 +90,8 @@ namespace stakk {
             }
             //debug
             if (debug) {
-                for (int i = 0; i < lattice.size(); i++) {
-                    for (int j = 0; j < lattice[i].size(); j++) {
+                for (size_t i = 0; i < lattice.size(); i++) {
+                    for (size_t j = 0; j < lattice[i].size(); j++) {
                         wcout << lattice[i][j].format() << endl;
                     }
                 }
@@ -111,7 +111,7 @@ namespace stakk {
         wstring format(vector<Node> nodes, string output) {
             wstring result = L"";
             if (output == "mecab") {
-                for (int i = 0; i < nodes.size(); i++) {
+                for (size_t i = 0; i < nodes.size(); i++) {
                     Node &node = nodes[i];
                     wstring lid = definition.get(node.lid);
                     wstring rid = definition.get(node.rid);
@@ -119,12 +119,12 @@ namespace stakk {
                 }
                 result += L"EOS\n";
             } else if (output == "wakati") {
-                for (int i = 0; i < nodes.size(); i++) {
+                for (size_t i = 0; i < nodes.size(); i++) {
                     result += nodes[i].word + L" ";
                 }
                 result += L"\n";
             } else if (output == "yomi") {
-                for (int i = 0; i < nodes.size(); i++) {
+                for (size_t i = 0; i < nodes.size(); i++) {
                     result += nodes[i].yomi;
                 }
                 result += L"\n";
