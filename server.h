@@ -13,6 +13,7 @@ namespace stakk {
         Server() {
             port = 50000;
         }
+        virtual ~Server() {}
 
         //parse http request
         vector<string> parse_request(string request) {
