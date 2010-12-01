@@ -11,22 +11,48 @@ int main(int argc, char *argv[]) {
 
     //trie.display();
 
+    wstring value = L"わたし	2283	2283	0	わたし";
+
     { // search
         vector<wstring> *result = trie.search(L"わたし");
         assert(result != NULL);
-        wstring value = L"わたし	2283	2283	0	わたし";
         assert((*result)[0] == value);
     }
 
     { // common prefix search
         ListTrieWide::Entries results;
-        trie.common_prefix_search(L"わたし", L"", results);
+        trie.common_prefix_search(L"わたしのなまえ", L"", results);
         assert(results.size() != 0);
         assert(results[0].key == L"わたし");
         assert(results[0].values.size() != 0);
-        wstring value = L"わたし	2283	2283	0	わたし";
         assert(results[0].values[0] == value);
     }
 
+    { // common prefix search
+        ListTrieWide::Entries results;
+        trie.common_prefix_search(L"わたしのなまえ", L"", results);
+        assert(results.size() != 0);
+        assert(results[0].key == L"わたし");
+        assert(results[0].values.size() != 0);
+        assert(results[0].values[0] == value);
+    }
+
+    { // predictive search
+        ListTrieWide::Entries results;
+        trie.predictive_search(L"わた", L"", results);
+        assert(results.size() != 0);
+        assert(results[0].key == L"わたし");
+        assert(results[0].values.size() != 0);
+        assert(results[0].values[0] == value);
+    }
+
+    { // fuzzy search
+        ListTrieWide::Entries results;
+        trie.fuzzy_search_ex(L"わあし", 1, results);
+        assert(results.size() != 0);
+        assert(results[0].key == L"わたし");
+        assert(results[0].values.size() != 0);
+        assert(results[0].values[0] == value);
+    }
     return 0;
 }
