@@ -8,4 +8,6 @@ all:
 	$(CC) $(CPPFLAGS) stakk.cc -o stakk.out
 	$(CC) $(CPPFLAGS) stakk_server.cc -o stakk_server.out
 	$(CC) $(CPPFLAGS) test/util_test.cc -o test/util_test.out
+	$(CC) $(CPPFLAGS) test/trie_test.cc -o test/trie_test.out
 	test/util_test.out
+	test/trie_test.out
