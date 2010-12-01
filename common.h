@@ -20,7 +20,10 @@
 #include <math.h>
 #include <string.h>
 #include <limits.h>
+#include <stdint.h>
+#include <assert.h>
 
-using namespace std;
-
+namespace stakk {
+    using namespace std;
+}
 #endif

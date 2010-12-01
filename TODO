@@ -1,4 +1,28 @@
-* Implemented    
+* TODO
+Support UTF-8
+HTML form tag Parameter URL Parser
+Event Handling with epoll or libevent
+Sequencial Spelling Correction
+Sequencial Predictive Input
+Value Offset Type Methodology
+Dynamic Update
+MA with Surface -> Spell Correction with Reading combination
+Template Library
+
+* Refactoring
+Unit Tests
+Use Class and Capsulization
+
+* Dream
+LOUDS Trie
+Huffman Cording for Data Compression
+Handwritten Recognition
+OCR
+Speech Recognition
+Machine Translation
+Dialogue System
+
+* Done   
 Trie Data Structure
 Wide Character Support
 Common Prefix Search
@@ -10,22 +34,6 @@ Predictive Input
 Morphological Analyzer
 HTTP API Server
 Mozc Dictionary and Language Model Data
-
-* TODO
-HTML form tag Parameter URL Parser
-Event Handling with epoll or libevent
-Sequencial Spelling Correction
-Sequencial Predictive Input
-Support UTF-8
-Value Offset Type Methodology
-Dynamic Update
-MA with Surface -> Spell Correction with Reading combination
-
-* Dream
-LOUDS Trie
-Huffman Cording for Data Compression
-Handwritten Recognition
-OCR
-Speech Recognition
-Machine Translation
-Dialogue System
+Error Handling
+Use Makefile
+add -Wall option

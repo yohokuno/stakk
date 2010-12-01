@@ -1,12 +1,9 @@
-#include "common.h"
-#include "util.h"
-#include "trie.h"
-#include "server.h"
 #include "trie_server.h"
+using namespace stakk;
 
 int main(int argc, char *argv[]) {
     //parse option
-    int result, port = 54633;
+    int result, port = 50000;
     string filename = "data/dictionary.txt";
     bool reverse = false;
     try { locale::global(locale("")); } catch (...) {}
@@ -27,10 +24,11 @@ int main(int argc, char *argv[]) {
 
     wcout << "loading dictionary" << endl;
     ListTrieWide trie;
-    if (reverse)
-        trie.load(filename, 4, L'\t');
-    else
-        trie.load(filename, 0, L'\t');
+    int field = reverse ? 4 : 0;
+    if (!trie.load(filename, field, L'\t')) {
+        cout << filename << " is not found." << endl;
+        exit(0);
+    }
 
     TrieServer server(trie);
     server.port = port;

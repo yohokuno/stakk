@@ -1,21 +1,13 @@
-#include "common.h"
-#include "util.h"
-#include "trie.h"
-#include "connection.h"
-#include "stakk.h"
-#include "converter.h"
-#include "server.h"
-#include "trie_server.h"
 #include "stakk_server.h"
+using namespace stakk;
 
 int main(int argc, char *argv[]) {
     //parse option
     int result;
-    int port = 54633;
+    int port = 50000;
     string dictionary_ = "data/dictionary.txt";
     string connection_ = "data/connection.txt";
     string id_def = "data/id.def";
-    bool debug = false;
     bool reverse = false;
     try { locale::global(locale("")); } catch (...) {}
 
@@ -41,16 +33,25 @@ int main(int argc, char *argv[]) {
 
     wcout << "loading dictionary" << endl;
     ListTrieWide trie;
-    if (reverse)
-        trie.load(dictionary_, 4, L'\t');
-    else
-        trie.load(dictionary_, 0, L'\t');
+    int field = reverse ? 4 : 0;
+    if (!trie.load(dictionary_, field, L'\t')) {
+        cout << dictionary_ << " is not found." << endl;
+        exit(0);
+    }
 
     wcout << "loading connection" << endl;
-    Connection connection(connection_);
+    Connection connection;
+    if (!connection.load(connection_)) {
+        cout << connection_ << " is not found." << endl;
+        exit(0);
+    }
 
     wcout << "loading id definition" << endl;
-    Definition definition(id_def);
+    Definition definition;
+    if (!definition.load(id_def)) {
+        cout << id_def << " is not found." << endl;
+        exit(0);
+    }
 
     //initialize action objects using data object reference.
     Stakk stakk(trie, connection);

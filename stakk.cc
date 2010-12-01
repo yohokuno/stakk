@@ -1,8 +1,5 @@
-#include "common.h"
-#include "util.h"
-#include "trie.h"
-#include "connection.h"
 #include "stakk.h"
+using namespace stakk;
 
 int main(int argc, char *argv[]) {
     //parse option
@@ -35,13 +32,18 @@ int main(int argc, char *argv[]) {
 
     wcout << "loading dictionary" << endl;
     ListTrieWide trie;
-    if (reverse)
-        trie.load(dictionary_, 4, L'\t');
-    else
-        trie.load(dictionary_, 0, L'\t');
+    int field = reverse ? 4 : 0;
+    if (!trie.load(dictionary_, field, L'\t')) {
+        cout << dictionary_ << " is not found." << endl;
+        exit(0);
+    }
 
     wcout << "loading connection" << endl;
-    Connection connection(connection_);
+    Connection connection;
+    if (!connection.load(connection_)) {
+        cout << connection_ << " is not found." << endl;
+        exit(0);
+    }
 
     Stakk stakk(trie, connection);
     wstring line;

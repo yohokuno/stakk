@@ -84,9 +84,7 @@ v1.0 2010/11/23 ファーストリリース
 
 ** 利用例
 # コンパイル
-$ g++ converter_test.cc -o converter_test
-$ g++ stakk_test.cc -o stakk_test
-$ g++ stakk_server.cc -o stakk_server
+$ make
 
 # かな漢字変換
 $ ./converter_test -o wakati
