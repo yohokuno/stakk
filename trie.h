@@ -139,8 +139,10 @@ namespace stakk {
             }
         }
         void display(wstring key=L"") {
-            if (values.size() > 0)
-                wcout << key << "\t" << format(values) << endl;
+            if (values.size() > 0) {
+                wcout << "key: " << key << endl;
+                wcout << "value: " << format(values) << endl;
+            }
             for (Itr i = children.begin(); i != children.end(); i++) {
                 i->second.display(key + i->first);
             }
