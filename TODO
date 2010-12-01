@@ -10,7 +10,6 @@ MA with Surface -> Spell Correction with Reading combination
 Template Library
 
 * Refactoring
-Error Handling
 Unit Tests
 Use Class and Capsulization
 
@@ -35,4 +34,6 @@ Predictive Input
 Morphological Analyzer
 HTTP API Server
 Mozc Dictionary and Language Model Data
-
+Error Handling
+Use Makefile
+add -Wall option
