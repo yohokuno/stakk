@@ -2,7 +2,7 @@ StaKK: Statistical Kana Kanji conversion engine
 
 統計的自然言語処理エンジン StaKK
 
-* 現在の機能
+** 現在の機能
 かな漢字変換
 予測変換 または サジェスト
 スペル訂正
@@ -12,7 +12,7 @@ Trieの直接操作
 
 現在は、StaKK は辞書として Mozc （Google日本語入力のOSS版）のデータを使っています。
 
-* リバースモードについて
+** リバースモードについて
 StaKK はノーマルモードとリバースモードの2つのモードを持っています。
 
 ノーマルモードでは、かなを入力し、単語（主に漢字）を出力します。
@@ -25,7 +25,7 @@ StaKK はノーマルモードとリバースモードの2つのモードを持�
 | Predict       | 予測変換          | 検索ワードのサジェスト    |
 | Spell Correct | 読みのスペル訂正  | 表記のスペル訂正          |
 
-* 使い方
+** 使い方
 共通コマンドオプション
     command [-r] [-d dictionary] [-c conneciton]
         -d dictionary:  Mozcフォーマットの辞書があるファイルパス。デフォルト: data/dictinoary.txt
@@ -75,14 +75,14 @@ HTTP API のパラメータ:
         number:     表示する最大の予測候補の数。デフォルト: 50
     
 
-* 開発環境
+** 開発環境
 CentOS 5.5
 gcc 4.1.2
 
-* バージョン
+** バージョン
 v1.0 2010/11/23 ファーストリリース
 
-* 利用例
+** 利用例
 # コンパイル
 $ g++ converter_test.cc -o converter_test
 $ g++ stakk_test.cc -o stakk_test
