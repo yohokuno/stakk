@@ -5,10 +5,9 @@ int main(int argc, char *argv[]) {
     string connection_ = "test/connection.txt";
     Connection connection;
     assert( connection.load(connection_) == true );
-    assert( connection.size == 2);
-    assert( connection.get(0,0) == 100);
-    assert( connection.get(0,1) == 10);
-    assert( connection.get(1,0) == 1000);
-    assert( connection.get(1,1) == 500);
+    assert( connection.size == 4);
+    assert( connection.get(0,0) == 0);
+    assert( connection.get(1,3) == 5000);
+    assert( connection.get(3,3) == 5000);
     return 0;
 }
