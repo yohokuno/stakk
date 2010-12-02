@@ -2,10 +2,11 @@
 #define CONNECTION_H
 
 #include "common.h"
+#include "util.h"
 namespace stakk {
     struct Connection {
         vector<unsigned short> connection;
-        static const int size = 3033;
+        unsigned int size;
 
         bool load(string filename, bool full = true) {
             wifstream ifs(filename.c_str());
@@ -13,6 +14,7 @@ namespace stakk {
                 return false;
             wstring line;
             getline(ifs, line);
+            wstringstream(line) >> size;
             if (full)
                 connection.resize(size * size);
             else
