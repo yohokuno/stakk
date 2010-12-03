@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
 
     //trie.display();
 
-    wstring value = L"わたし	2283	2283	0	わたし";
+    wstring value = L"わたし	1	1	10	私";
 
     { // search
         vector<wstring> *result = trie.search(L"わたし");
