@@ -11,8 +11,6 @@ Stakk
 Server
     HTML form tag Parameter URL Parser
     Event Handling with epoll or libevent or boost::asio
-Refactoring
-    refine indent 
 
 * Dream
 LOUDS Trie
@@ -45,3 +43,5 @@ Refactoring
     add -Wall option
     Unit Tests
     Use Class and Capsulization
+    refine indent 
+    use google c++ style guide
