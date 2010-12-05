@@ -24,6 +24,6 @@
 #include <assert.h>
 
 namespace stakk {
-    using namespace std;
+using namespace std;
 }
 #endif
