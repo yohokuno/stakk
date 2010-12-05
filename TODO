@@ -8,6 +8,8 @@ Stakk
     Spell Correct with Reading
     Sequencial Spelling Correction
     Sequencial Predictive Input
+    N-best support
+    Segment support
 Server
     HTML form tag Parameter URL Parser
     Event Handling with epoll or libevent or boost::asio
