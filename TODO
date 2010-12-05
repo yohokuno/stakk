@@ -12,7 +12,7 @@ Server
     HTML form tag Parameter URL Parser
     Event Handling with epoll or libevent or boost::asio
 Refactoring
-    Use Class and Capsulization
+    refine indent 
 
 * Dream
 LOUDS Trie
@@ -24,18 +24,24 @@ Machine Translation
 Dialogue System
 
 * Done   
-Trie Data Structure
-Wide Character Support
-Common Prefix Search
-Predictive Search
-Fuzzy search
-Kana-Kanji Converter
-Spelling Correction
-Predictive Input
-Morphological Analyzer
-HTTP API Server
-Mozc Dictionary and Language Model Data
-Error Handling
-Use Makefile
-add -Wall option
-Unit Tests
+Trie
+    Trie Data Structure
+    Wide Character Support
+    parse Mozc Data
+    Common Prefix Search
+    Predictive Search
+    Fuzzy search
+Stakk
+    Kana-Kanji Converter
+    Spelling Correction
+    Predictive Input
+    Morphological Analyzer
+Server
+    socket server
+    http Server
+Refactoring
+    Error Handling
+    Use Makefile
+    add -Wall option
+    Unit Tests
+    Use Class and Capsulization

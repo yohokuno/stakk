@@ -56,8 +56,7 @@ int main(int argc, char *argv[]) {
     //initialize action objects using data object reference.
     Stakk stakk(trie, connection);
     Converter converter(trie, connection, definition);
-    StakkServer server(trie, stakk, converter);
-    server.port = port;
+    StakkServer server(port, trie, stakk, converter);
 
     wcout << "server ready" << endl;
     result = server.communicate();

@@ -30,8 +30,7 @@ int main(int argc, char *argv[]) {
         exit(0);
     }
 
-    TrieServer server(trie);
-    server.port = port;
+    TrieServer server(port, trie);
 
     wcout << "input query: " << endl;
     result = server.communicate();
