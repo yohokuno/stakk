@@ -1,21 +1,22 @@
 * TODO
-Support UTF-8
-HTML form tag Parameter URL Parser
-Event Handling with epoll or libevent
-Sequencial Spelling Correction
-Sequencial Predictive Input
-Value Offset Type Methodology
-Dynamic Update
-MA with Surface -> Spell Correction with Reading combination
-Template Library
-
-* Refactoring
-Unit Tests
-Use Class and Capsulization
+Trie
+    Template Library
+    Support UTF-8
+    Support Dynamic Update
+    Value Compression
+Stakk
+    Spell Correct with Reading
+    Sequencial Spelling Correction
+    Sequencial Predictive Input
+Server
+    HTML form tag Parameter URL Parser
+    Event Handling with epoll or libevent or boost::asio
+Refactoring
+    Use Class and Capsulization
 
 * Dream
 LOUDS Trie
-Huffman Cording for Data Compression
+Huffman Cording
 Handwritten Recognition
 OCR
 Speech Recognition
@@ -37,3 +38,4 @@ Mozc Dictionary and Language Model Data
 Error Handling
 Use Makefile
 add -Wall option
+Unit Tests
