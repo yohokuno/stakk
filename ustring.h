@@ -6,8 +6,7 @@
 namespace stakk {
 
 typedef basic_string<uint16_t> ustring;
-
-inline size_t get_len(char c) {
+size_t get_len(char c) {
   const uint8_t len_table[256] = {
     1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,
     1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1, 1,1,1,1,1,1,1,1,
@@ -20,34 +19,33 @@ inline size_t get_len(char c) {
   };
   return (size_t)len_table[(uint8_t)c];
 }
-inline ustring decode(string input) {
-  ustring result;
-  for (size_t i = 0; i < input.length(); i+= get_len(input[i])) {
-    switch (get_len(input[i])) {
-      case 1:
-        result += (uint16_t) input[i];
-        break;
-      case 3:
-        result += (uint16_t) input[i+1] + ((uint16_t) input[i+2] << 8);
-        break;
+
+class Ustring {
+ private:
+  vector<string> u2s;
+  map<string, uint16_t> s2u;
+ public:
+  ustring decode(string input) {
+    ustring result;
+    for (size_t i = 0; i < input.length(); i+= get_len(input[i])) {
+      string c = input.substr(i, get_len(input[i]));
+      uint16_t id = s2u[c];
+      if (id == 0) {
+        u2s.push_back(c);
+        s2u[c] = u2s.size();
+        id = u2s.size() - 1;
+      }
+      result.push_back(id);
     }
+    return result;
   }
-  return result;
-}
-inline string encode(ustring input) {
-  string result;
-  for (size_t i = 0; i < input.length(); i++) {
-    uint8_t up = input[i] >> 8;
-    uint8_t down = (uint8_t) input[i];
-    if (up == 0) {
-      result += (char) down;
-    } else {
-      result += (char) 0xe3;
-      result += (char) down;
-      result += (char) up;
+  string encode(ustring input) {
+    string result;
+    for (size_t i = 0; i < input.length(); i++) {
+      result += u2s[input[i]];
     }
+    return result;
   }
-  return result;
-}
+};
 }
 #endif
