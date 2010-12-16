@@ -34,6 +34,8 @@ class Ustring {
         u2s.push_back(c);
         s2u[c] = u2s.size();
         id = u2s.size() - 1;
+      } else {
+        id -= 1;
       }
       result.push_back(id);
     }
