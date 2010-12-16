@@ -23,7 +23,6 @@ int main() {
     string test = "あかさたなakb48";
     ustring temp = u.decode(test);
     string result = u.encode(temp);
-    cout << result << endl;
 
     assert(test == result);
   }
