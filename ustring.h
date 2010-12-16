@@ -25,6 +25,9 @@ class Ustring {
   vector<string> u2s;
   map<string, uint16_t> s2u;
  public:
+  Ustring() {
+    u2s.push_back("NULL");
+  }
   ustring decode(string input) {
     ustring result;
     for (size_t i = 0; i < input.length(); i+= get_len(input[i])) {
@@ -32,10 +35,8 @@ class Ustring {
       uint16_t id = s2u[c];
       if (id == 0) {
         u2s.push_back(c);
-        s2u[c] = u2s.size();
         id = u2s.size() - 1;
-      } else {
-        id -= 1;
+        s2u[c] = id;
       }
       result.push_back(id);
     }

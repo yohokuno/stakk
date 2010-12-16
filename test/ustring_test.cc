@@ -9,13 +9,11 @@ int main() {
   assert( get_len(a[0]) == 3 );
 
   {
-    string test = "あいうえお abcde";
+    string test = "あいうえおabcde";
     ustring temp = u.decode(test);
-
-    assert( temp[0] == 0 );
-
     string result = u.encode(temp);
 
+    assert( temp[0] == 1 );
     assert(test == result);
   }
   
