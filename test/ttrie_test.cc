@@ -1,10 +1,6 @@
 #include "../ttrie.h"
 using namespace stakk;
 
-template <> string SimpleTrie::separator("\t");
-template <> string SimpleTrie::linebreak("\n");
-template <> string SimpleTrie::empty("");
-
 int main(int argc, char *argv[]) {
   string filename = "test/dictionary.txt";
   SimpleTrie trie;

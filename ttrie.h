@@ -192,5 +192,13 @@ class Trie {
 typedef Trie<char> SimpleTrie;
 typedef Trie<wchar_t> WideTrie;
 
+template <> string SimpleTrie::separator("\t");
+template <> string SimpleTrie::linebreak("\n");
+template <> string SimpleTrie::empty("");
+
+template <> wstring WideTrie::separator(L"\t");
+template <> wstring WideTrie::linebreak(L"\n");
+template <> wstring WideTrie::empty(L"");
+
 }
 #endif
