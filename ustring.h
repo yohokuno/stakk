@@ -19,6 +19,21 @@ size_t get_len(char c) {
   };
   return (size_t)len_table[(uint8_t)c];
 }
+/*
+size_t get_len(char input) {
+  size_t len = 0;
+  uint8_t c = (uint8_t) input;
+  if(c == 0x00) len = 0;
+  else if(c < 0x80) len = 1;
+  else if(c < 0xC2) len = 0;
+  else if(c < 0xE0) len = 2;
+  else if(c < 0xF0) len = 3;
+  else if(c < 0xF8) len = 4;
+  else if(c < 0xFC) len = 5;
+  else if(c < 0xFE) len = 6;
+  else len = 1;
+  return len;
+}*/
 
 class Ustring {
  private:
