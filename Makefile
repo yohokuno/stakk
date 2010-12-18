@@ -10,8 +10,6 @@ all:
 	$(CC) $(CCFLAGS) stakk_server.cc -o stakk_server.out
 
 test:
-	$(CC) $(CCFLAGS) test/ttrie_test.cc -o test/ttrie_test.out
-	test/ttrie_test.out
 	$(CC) $(CCFLAGS) test/ustring_test.cc -o test/ustring_test.out
 	test/ustring_test.out
 	$(CC) $(CCFLAGS) test/util_test.cc -o test/util_test.out

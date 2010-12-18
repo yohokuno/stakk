@@ -9,7 +9,7 @@
 namespace stakk {
 class Converter {
  private:
-  ListTrieWide &trie;
+  WideTrie &trie;
   Connection &connection;
   Definition &definition;
 
@@ -43,7 +43,7 @@ class Converter {
   const Node bos;
 
   //initialize references
-  Converter(ListTrieWide &trie_, Connection &connection_, Definition &definition_)
+  Converter(WideTrie &trie_, Connection &connection_, Definition &definition_)
       : trie(trie_), connection(connection_), definition(definition_){}
 
   //convert from kana to kanji
@@ -57,7 +57,7 @@ class Converter {
 
     //common prefix search
     for (size_t i = 0; i < input.length(); i++) {
-      ListTrieWide::Entries entries;
+      WideTrie::Entries entries;
       wstring query = input.substr(i);
       trie.common_prefix_search(query, L"", entries);
       for (size_t j = 0; j < entries.size(); j++) {

@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
   string connection_ = "test/connection.txt";
   string id_def = "test/id.def";
 
-  ListTrieWide trie;
+  WideTrie trie;
   assert(trie.load(dictionary_, 0, L'\t') == true);
 
   Connection connection;

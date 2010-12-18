@@ -9,7 +9,7 @@
 namespace stakk {
 class Stakk {
  private:
-  ListTrieWide &trie;
+  WideTrie &trie;
   Connection  &connection;
 
  public:
@@ -29,14 +29,14 @@ class Stakk {
     }
   };
   //initalize
-  Stakk(ListTrieWide &trie_, Connection &connection_)
+  Stakk(WideTrie &trie_, Connection &connection_)
       : trie(trie_), connection(connection_)
   {
   }
 
   //spell correct
   void correct(wstring input, int threshold, vector<Entry> &results) {
-    ListTrieWide::Entries entries;
+    WideTrie::Entries entries;
     trie.fuzzy_search_ex(input, threshold, entries);
     for (size_t i = 0; i < entries.size(); i++) {
       wstring yomi = entries[i].key;
@@ -54,7 +54,7 @@ class Stakk {
 
   //predictive input
   void predict(wstring input, vector<Entry> &results) {
-    ListTrieWide::Entries entries;
+    WideTrie::Entries entries;
     trie.predictive_search(input, L"", entries);
     for (size_t i = 0; i < entries.size(); i++) {
       wstring yomi = entries[i].key;
