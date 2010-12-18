@@ -7,7 +7,8 @@
 namespace stakk {
 
 template<typename CHAR>
-struct Trie {
+class Trie {
+ public:
   typedef basic_string<CHAR> String;
   struct Entry {
     String key;
@@ -22,9 +23,11 @@ struct Trie {
   typedef vector<Entry> Entries;
   typedef pair<CHAR, Trie> Pair;
   typedef typename list<Pair>::iterator Itr;
+ private:
   list<Pair> children;
   vector<String> values;
 
+ public:
   void insert(String key, String value) {
     if (key.length() != 0) {
       CHAR first = key[0];
