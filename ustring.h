@@ -49,6 +49,12 @@ class Ustring {
     }
     return result;
   }
+  size_t size() {
+    if (u2s.size()-1 == s2u.size()) {
+      return s2u.size();
+    }
+    return 0;
+  }
 };
 }
 #endif
