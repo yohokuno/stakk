@@ -9,6 +9,7 @@ namespace stakk {
 
 class Utf8Trie {
  public:
+  /*
   struct Entry {
     string key;
     int distance;
@@ -20,18 +21,20 @@ class Utf8Trie {
     }
   };
   typedef vector<Entry> Entries;
-  typedef pair<char, Utf8Trie> Pair;
+  */
+  typedef pair<uint16_t, Utf8Trie> Pair;
   typedef list<Pair>::iterator Itr;
 
  private:
   list<Pair> children;
   vector<string> values;
+  Ustring u;
 
  public:
-  void insert(string key, string value) {
+  void insert(ustring key, string value) {
     if (key.length() != 0) {
-      char first = key[0];
-      string rest = key.substr(1);
+      uint16_t first = key[0];
+      ustring rest = key.substr(1);
       Utf8Trie *child = find(first);
       if (child == NULL) {
         children.push_back(Pair(first, Utf8Trie()));
@@ -42,7 +45,7 @@ class Utf8Trie {
       values.push_back(value);
     }
   }
-  Utf8Trie *find(char key) {
+  Utf8Trie *find(uint16_t key) {
     for (Itr i = children.begin(); i != children.end(); i++) {
       if (key == i->first) {
         return &i->second;
@@ -51,17 +54,34 @@ class Utf8Trie {
     return NULL;
   }
   vector<string> *search(string key) {
+    ustring ukey = u.decode(key);
+    return search(ukey);
+  }
+  vector<string> *search(ustring key) {
     if (!key.length())
       if (values.size())
         return &values;
       else
         return NULL;
-    char first = key[0];
-    string rest = key.substr(1);
+    uint16_t first = key[0];
+    ustring rest = key.substr(1);
     Utf8Trie *child = find(first);
     if (child != NULL)
       return child->search(rest);
     return NULL;
+  }
+  bool load(string filename, int key, char separator) {
+    ifstream ifs(filename.c_str());
+    if (!ifs.is_open())
+      return false;
+    string line;
+    while (getline(ifs, line)) {
+      vector<string> splited = split(line, separator);
+      ustring k = u.decode(splited[key]);
+      insert(k, line);
+    }
+    ifs.close();
+    return true;
   }
   /*
   void common_prefix_search(string query, string key, Entries &results) {
@@ -145,7 +165,6 @@ class Utf8Trie {
       }
     }
   }
-*/
   bool load(string filename, int key, char separator) {
     ifstream ifs(filename.c_str());
     if (!ifs.is_open())
@@ -187,6 +206,7 @@ class Utf8Trie {
     v.push_back(s);
     return v;
   }
+*/
 };
 }
 #endif
