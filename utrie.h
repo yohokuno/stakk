@@ -20,8 +20,9 @@ class Utf8Trie {
     }
   };
   typedef vector<Entry> Entries;
-  typedef pair<uint16_t, Utf8Trie> Pair;
+  typedef pair<char, Utf8Trie> Pair;
   typedef list<Pair>::iterator Itr;
+
  private:
   list<Pair> children;
   vector<string> values;
