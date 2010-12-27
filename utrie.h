@@ -3,9 +3,21 @@
 
 #include "common.h"
 #include "util.h"
-#include "ustring.h"
+#include "utable.h"
 
 namespace stakk {
+
+struct Entry {
+  string key;
+  int distance;
+  vector<string> values;
+  Entry(string _key, int _distance, vector<string> _values) {
+    key = _key;
+    distance = _distance;
+    values = _values;
+  }
+};
+typedef vector<Entry> Entries;
 
 class UTrie {
  private:
@@ -13,20 +25,10 @@ class UTrie {
   typedef list<Pair>::iterator Itr;
   list<Pair> children;
   vector<string> values;
-  static Ustring u;
+  UTable &utable;
 
  public:
-  struct Entry {
-    string key;
-    int distance;
-    vector<string> values;
-    Entry(string _key, int _distance, vector<string> _values) {
-      key = _key;
-      distance = _distance;
-      values = _values;
-    }
-  };
-  typedef vector<Entry> Entries;
+  UTrie(UTable &utable_) : utable(utable_) {}
 
   void insert(ustring key, string value) {
     if (key.length() != 0) {
@@ -34,7 +36,7 @@ class UTrie {
       ustring rest = key.substr(1);
       UTrie *child = find(first);
       if (child == NULL) {
-        children.push_back(Pair(first, UTrie()));
+        children.push_back(Pair(first, UTrie(utable)));
         child = &(children.back().second);
       }
       child->insert(rest, value);
@@ -57,14 +59,14 @@ class UTrie {
     string line;
     while (getline(ifs, line)) {
       vector<string> splited = split(line, separator);
-      ustring k = u.decode(splited[key]);
+      ustring k = utable.decode(splited[key]);
       insert(k, line);
     }
     ifs.close();
     return true;
   }
   vector<string> *search(string key) {
-    ustring ukey = u.decode(key);
+    ustring ukey = utable.decode(key);
     return search(ukey);
   }
   vector<string> *search(ustring key) {
@@ -82,13 +84,13 @@ class UTrie {
     return NULL;
   }
   void common_prefix_search(string query, Entries &results) {
-    ustring uquery = u.decode(query);
+    ustring uquery = utable.decode(query);
     ustring ukey;
     common_prefix_search(uquery, ukey, results);
   }
   void common_prefix_search(ustring query, ustring key, Entries &results) {
     if (values.size())
-      results.push_back(Entry(u.encode(key), 0, values));
+      results.push_back(Entry(utable.encode(key), 0, values));
     if (!query.length() || !children.size())
       return;
     UTrie *child = find(query.at(0));
@@ -98,13 +100,13 @@ class UTrie {
     }
   }
   void predictive_search(string query, string key, Entries &results) {
-    ustring uquery = u.decode(query);
+    ustring uquery = utable.decode(query);
     ustring ukey;
     predictive_search(uquery, ukey, results);
   }
   void predictive_search(ustring query, ustring key, Entries &results) {
     if (query.length() <= key.length() && values.size())
-      results.push_back(Entry(u.encode(key), 0, values));
+      results.push_back(Entry(utable.encode(key), 0, values));
     if (!children.size())
       return;
     if (query.length() > key.length()) {
@@ -119,13 +121,13 @@ class UTrie {
     }
   }
   void fuzzy_search(string query, int distance, Entries &results) {
-    ustring uquery = u.decode(query);
+    ustring uquery = utable.decode(query);
     ustring ukey;
     fuzzy_search(uquery, ukey, distance, results);
   }
   void fuzzy_search(ustring query, ustring key, int distance, Entries &results) {
     if (!query.length() && values.size())
-      results.push_back(Entry(u.encode(key), distance, values));
+      results.push_back(Entry(utable.encode(key), distance, values));
     if (!children.size())
       return;
 

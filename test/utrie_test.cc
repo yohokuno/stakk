@@ -1,11 +1,10 @@
 #include "../utrie.h"
 using namespace stakk;
 
-Ustring UTrie::u;
-
 int main(int argc, char *argv[]) {
   string filename = "test/dictionary.txt";
-  UTrie trie;
+  UTable utable;
+  UTrie trie(utable);
   int result = trie.load(filename, 0, '\t');
 
   assert(result == true);
@@ -18,7 +17,7 @@ int main(int argc, char *argv[]) {
     assert((*result)[0] == value);
   }
   { // common prefix search
-    UTrie::Entries results;
+    Entries results;
     trie.common_prefix_search("わたしのなまえ", results);
     assert(results.size() != 0);
     assert(results[0].key == "わたし");
@@ -26,7 +25,7 @@ int main(int argc, char *argv[]) {
     assert(results[0].values[0] == value);
   }
   { // predictive search
-    UTrie::Entries results;
+    Entries results;
     trie.predictive_search("わた", "", results);
     assert(results.size() != 0);
     assert(results[0].key == "わたし");
@@ -34,7 +33,7 @@ int main(int argc, char *argv[]) {
     assert(results[0].values[0] == value);
   }
   { // fuzzy search
-    UTrie::Entries results;
+    Entries results;
     trie.fuzzy_search("わあし", 1, results);
     assert(results.size() != 0);
     assert(results[0].key == "わたし");
@@ -42,7 +41,7 @@ int main(int argc, char *argv[]) {
     assert(results[0].values[0] == value);
   }
   { // fuzzy search ex
-    UTrie::Entries results;
+    Entries results;
     trie.fuzzy_search_ex("わあし", 1, results);
     assert(results.size() != 0);
     assert(results[0].key == "わたし");
