@@ -10,12 +10,12 @@ namespace stakk {
 class TrieServer : public Server {
  protected:
   string filename, mode;
-  ListTrieWide &trie;
+  WideTrie &trie;
   int threshold;
 
  public:
   //init trie reference
-  TrieServer(int port_, ListTrieWide &trie_) : Server(port_), trie(trie_) {}
+  TrieServer(int port_, WideTrie &trie_) : Server(port_), trie(trie_) {}
 
   //parse request path
   wstring parse_path(vector<string> &path) {
@@ -39,19 +39,19 @@ class TrieServer : public Server {
       vector<wstring> *result;
       result = trie.search(input);
       if (result)
-        response += ListTrieWide::format(*result);
+        response += WideTrie::format(*result);
     } else if (mode == "common") {
-      ListTrieWide::Entries results;
+      WideTrie::Entries results;
       trie.common_prefix_search(input, L"", results);
-      response +=  ListTrieWide::format(results);
+      response +=  WideTrie::format(results);
     } else if (mode == "predict") {
-      ListTrieWide::Entries results;
+      WideTrie::Entries results;
       trie.predictive_search(input, L"", results);
-      response += ListTrieWide::format(results);
+      response += WideTrie::format(results);
     } else if (mode == "fuzzy") {
-      ListTrieWide::Entries results;
+      WideTrie::Entries results;
       trie.fuzzy_search_ex(input, threshold, results);
-      response += ListTrieWide::format(results);
+      response += WideTrie::format(results);
     }
     return response;
   }

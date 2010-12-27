@@ -51,11 +51,12 @@ class Trie {
     return NULL;
   }
   vector<String> *search(String key) {
-    if (!key.length())
+    if (!key.length()) {
       if (values.size())
         return &values;
       else
         return NULL;
+    }
     CHAR first = key[0];
     String rest = key.substr(1);
     Trie *child = find(first);
@@ -158,9 +159,9 @@ class Trie {
   }
   static String format(Entries entries) {
     String result;
-    for (int i = 0; i < entries.size(); i++) {
+    for (size_t i = 0; i < entries.size(); i++) {
       Entry entry = entries.at(i);
-      for (int j = 0; j < entry.values.size(); j++) {
+      for (size_t j = 0; j < entry.values.size(); j++) {
         basic_stringstream<CHAR> distance;
         distance << entry.distance;
         result += entry.key + separator
@@ -172,7 +173,7 @@ class Trie {
   }
   static String format(vector<String> values) {
     String result;
-    for (int i = 0; i < values.size(); i++)
+    for (size_t i = 0; i < values.size(); i++)
       result += values.at(i) + linebreak;
     return result;
   }

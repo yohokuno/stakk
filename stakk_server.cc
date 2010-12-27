@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
   }
 
   wcout << "loading dictionary" << endl;
-  ListTrieWide trie;
+  WideTrie trie;
   int field = reverse ? 4 : 0;
   if (!trie.load(dictionary_, field, L'\t')) {
     cout << dictionary_ << " is not found." << endl;

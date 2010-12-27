@@ -25,7 +25,6 @@ int main(int argc, char *argv[]) {
     assert(results[0].values.size() != 0);
     assert(results[0].values[0] == value);
   }
-  /*
   { // predictive search
     UTrie::Entries results;
     trie.predictive_search("わた", "", results);
@@ -34,8 +33,15 @@ int main(int argc, char *argv[]) {
     assert(results[0].values.size() != 0);
     assert(results[0].values[0] == value);
   }
-
   { // fuzzy search
+    UTrie::Entries results;
+    trie.fuzzy_search("わあし", 1, results);
+    assert(results.size() != 0);
+    assert(results[0].key == "わたし");
+    assert(results[0].values.size() != 0);
+    assert(results[0].values[0] == value);
+  }
+  { // fuzzy search ex
     UTrie::Entries results;
     trie.fuzzy_search_ex("わあし", 1, results);
     assert(results.size() != 0);
@@ -43,6 +49,5 @@ int main(int argc, char *argv[]) {
     assert(results[0].values.size() != 0);
     assert(results[0].values[0] == value);
   }
-  */
   return 0;
 }

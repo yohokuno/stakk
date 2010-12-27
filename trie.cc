@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     }
   }
   wcout << "inserting.." << endl;
-  ListTrieWide trie;
+  WideTrie trie;
   int field = reverse ? 4 : 0;
   if (!trie.load(filename, field, L'\t')) {
     cout << filename << " is not found." << endl;
@@ -36,25 +36,25 @@ int main(int argc, char *argv[]) {
       result = trie.search(input);
       wcout << "search:" << endl;
       if (result)
-        wcout << ListTrieWide::format(*result) << endl;
+        wcout << WideTrie::format(*result) << endl;
     }
     if (mode == "all" || mode == "common") {
-      ListTrieWide::Entries results;
+      WideTrie::Entries results;
       trie.common_prefix_search(input, L"", results);
       wcout << "common:" << endl;
-      wcout << ListTrieWide::format(results);
+      wcout << WideTrie::format(results);
     }
     if (mode == "all" || mode == "predict") {
-      ListTrieWide::Entries results;
+      WideTrie::Entries results;
       trie.predictive_search(input, L"", results);
       wcout << "predict:" << endl;
-      wcout << ListTrieWide::format(results);
+      wcout << WideTrie::format(results);
     }
     if (mode == "all" || mode == "fuzzy") {
-      ListTrieWide::Entries results;
+      WideTrie::Entries results;
       trie.fuzzy_search_ex(input, 1, results);
       wcout << "fuzzy:" << endl;
-      wcout << ListTrieWide::format(results);
+      wcout << WideTrie::format(results);
     }
   }
   return 0;

@@ -20,7 +20,7 @@ class StakkServer : public TrieServer {
 
  public:
   //init trie and stakk references
-  StakkServer(int port_, ListTrieWide &trie_, Stakk &stakk_, Converter &converter_)
+  StakkServer(int port_, WideTrie &trie_, Stakk &stakk_, Converter &converter_)
       : TrieServer(port_, trie_), stakk(stakk_), converter(converter_)
   {
   }

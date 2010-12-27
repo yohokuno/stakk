@@ -1,6 +1,5 @@
 * TODO
 Trie
-    Template Library
     Support UTF-8
     Support Dynamic Update
     Value Compression
@@ -31,6 +30,7 @@ Trie
     Common Prefix Search
     Predictive Search
     Fuzzy search
+    Template Library
 Stakk
     Kana-Kanji Converter
     Spelling Correction
