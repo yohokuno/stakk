@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
   }
   { // predictive search
     Entries results;
-    trie.predictive_search("わた", "", results);
+    trie.predictive_search("わた", results);
     assert(results.size() != 0);
     assert(results[0].key == "わたし");
     assert(results[0].values.size() != 0);
