@@ -99,7 +99,7 @@ class UTrie {
       child->common_prefix_search(query.substr(1), next, results);
     }
   }
-  void predictive_search(string query, string key, Entries &results) {
+  void predictive_search(string query, Entries &results) {
     ustring uquery = utable.decode(query);
     ustring ukey;
     predictive_search(uquery, ukey, results);

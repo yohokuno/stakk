@@ -1,6 +1,20 @@
 #include "utrie.h"
 using namespace stakk;
 
+string format(Entries entries) {
+    string result;
+    for (size_t i = 0; i < entries.size(); i++) {
+      Entry entry = entries.at(i);
+      for (size_t j = 0; j < entry.values.size(); j++) {
+        stringstream distance;
+        distance << entry.distance;
+        result += entry.key + " "
+            + distance.str() + " "
+            + entry.values.at(j) + "\n";
+      }
+    }
+    return result;
+}
 int main(int argc, char *argv[]) {
   int result;
   string filename = "data/dictionary.txt";
@@ -21,7 +35,8 @@ int main(int argc, char *argv[]) {
     }
   }
   cout << "inserting.." << endl;
-  UTrie trie;
+  UTable utable;
+  UTrie trie(utable);
   int field = reverse ? 4 : 0;
   if (!trie.load(filename, field, '\t')) {
     cout << filename << " is not found." << endl;
@@ -35,32 +50,27 @@ int main(int argc, char *argv[]) {
       result = trie.search(input);
       cout << "search:" << endl;
       if (result) {
-        for (int i = 0; i < result->size(); i++) {
-          cout << (*result)[i] << " ";
-        }
-        cout << endl;
+        cout << join(*result, '\n') << endl;
       }
     }
-    /*
     if (mode == "all" || mode == "common") {
-      UTrie::Entries results;
-      trie.common_prefix_search(input, "", results);
+      Entries results;
+      trie.common_prefix_search(input, results);
       cout << "common:" << endl;
-      cout << UTrie::format(results);
+      cout << format(results);
     }
     if (mode == "all" || mode == "predict") {
-      UTrie::Entries results;
-      trie.predictive_search(input, "", results);
+      Entries results;
+      trie.predictive_search(input, results);
       cout << "predict:" << endl;
-      cout << UTrie::format(results);
+      cout << format(results);
     }
     if (mode == "all" || mode == "fuzzy") {
-      UTrie::Entries results;
+      Entries results;
       trie.fuzzy_search_ex(input, 1, results);
       cout << "fuzzy:" << endl;
-      cout << UTrie::format(results);
+      cout << format(results);
     }
-    */
   }
   return 0;
 }
