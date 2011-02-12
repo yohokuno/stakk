@@ -28,15 +28,15 @@ int main(int argc, char *argv[]) {
         break;
     }
   }
-  cout << "initializing.." << endl;
+  cerr << "initializing.." << endl;
   SimpleTrie trie;
   if (!trie.load(filename, 0, '\t')) {
-    cout << filename << " is not found." << endl;
+    cerr << filename << " is not found." << endl;
     exit(0);
   }
   Speller speller(trie, all, edit);
 
-  cout << "input:" << endl;
+  cerr << "input:" << endl;
   string input;
   while (getline(cin, input)) {
     cout << speller.correct(input, threshold) << endl;
