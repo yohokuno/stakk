@@ -1,4 +1,4 @@
-#include "trie.h"
+#include "speller.h"
 using namespace stakk;
 
 int main(int argc, char *argv[]) {
@@ -7,6 +7,7 @@ int main(int argc, char *argv[]) {
   string mode;
   int threshold = 2;
   int all = 36389567;
+  double edit = 2.0;
 
   while((result = getopt(argc, argv, "f:m:r")) != -1) {
     switch(result) {
@@ -22,36 +23,23 @@ int main(int argc, char *argv[]) {
       case 'a':
         all = strtol(optarg, NULL, 0);
         break;
+      case 'e':
+        edit = strtof(optarg, NULL);
+        break;
     }
   }
-  cout << "inserting.." << endl;
+  cout << "initializing.." << endl;
   SimpleTrie trie;
   if (!trie.load(filename, 0, '\t')) {
     cout << filename << " is not found." << endl;
     exit(0);
   }
+  Speller speller(trie, all, edit);
+
   cout << "input:" << endl;
   string input;
-  while ((cin >> input)) {
-    SimpleTrie::Entries results;
-    trie.fuzzy_search_ex(input, threshold, results);
-
-    double prob = 0;
-    string output = "";
-    for (int i = 0; i < results.size(); i++) {
-      for (int j = 0; j < results[i].values.size(); j++) {
-        vector<string> fields = split(results[i].values[j], '\t');
-        int freq = strtol(fields[1].c_str(), NULL, 0);
-        int edit = results[i].distance;
-        double p = (double)freq / all / pow(2, edit); 
-        if (p > prob) {
-          prob = p;
-          output = results[i].key;
-        }
-      }
-    }
-    cout << output << endl;
-    //cout << SimpleTrie::format(results);
+  while (getline(cin, input)) {
+    cout << speller.correct(input, threshold) << endl;
   }
   return 0;
 }

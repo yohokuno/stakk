@@ -1,5 +1,5 @@
 CC = g++
-CCFLAGS = -Wall
+CCFLAGS = -Wall -O3
 .PHONY: all test clean pack
 
 all:
@@ -33,3 +33,7 @@ clean:
 
 pack:
 	tar cfj stakk.tar.bz2 `find . -type f | egrep -v ".git|.out|.tar"` 
+
+speller:
+	$(CC) $(CCFLAGS) speller.cc -o speller.out
+
