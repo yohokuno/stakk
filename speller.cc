@@ -7,9 +7,9 @@ int main(int argc, char *argv[]) {
   string mode;
   int threshold = 2;
   int all = 36389567;
-  double edit = 2.0;
+  double editprob = 0.1;
 
-  while((result = getopt(argc, argv, "f:m:r")) != -1) {
+  while((result = getopt(argc, argv, "f:m:t:a:e:")) != -1) {
     switch(result) {
       case 'f':
         filename = optarg;
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
         all = strtol(optarg, NULL, 0);
         break;
       case 'e':
-        edit = strtof(optarg, NULL);
+        editprob = strtof(optarg, NULL);
         break;
     }
   }
@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
     cerr << filename << " is not found." << endl;
     exit(0);
   }
-  Speller speller(trie, all, edit);
+  Speller speller(trie, all, editprob);
 
   cerr << "input:" << endl;
   string input;
