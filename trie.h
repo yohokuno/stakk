@@ -7,6 +7,28 @@
 namespace stakk {
 
 template<typename CHAR>
+const CHAR* get_separator();
+template<>
+inline const char *get_separator<char>() { return "\t"; }
+template<>
+inline const wchar_t *get_separator<wchar_t>() { return L"\t"; }
+
+template<typename CHAR>
+const CHAR* get_linebreak();
+template<>
+inline const char *get_linebreak<char>() { return "\n"; }
+template<>
+inline const wchar_t *get_linebreak<wchar_t>() { return L"\n"; }
+
+template<typename CHAR>
+const CHAR* get_empty();
+template<>
+inline const char *get_empty<char>() { return ""; }
+template<>
+inline const wchar_t *get_empty<wchar_t>() { return L""; }
+
+
+template<typename CHAR>
 class Trie {
  public:
   typedef basic_string<CHAR> String;
@@ -128,7 +150,7 @@ class Trie {
   }
   void fuzzy_search_ex(String query, int distance, Entries &results) {
     Entries entries;
-    fuzzy_search(query, empty, distance, entries);
+    fuzzy_search(query, get_empty<CHAR>(), distance, entries);
     for (size_t i = 0; i < entries.size(); i++) {
       Entry entry = entries.at(i);
       bool flag = false;
@@ -164,9 +186,9 @@ class Trie {
       for (size_t j = 0; j < entry.values.size(); j++) {
         basic_stringstream<CHAR> distance;
         distance << entry.distance;
-        result += entry.key + separator
-            + distance.str() + separator
-            + entry.values.at(j) + linebreak;
+        result += entry.key + get_separator<CHAR> ()
+            + distance.str() + get_separator<CHAR> ()
+            + entry.values.at(j) + get_linebreak<CHAR>();
       }
     }
     return result;
@@ -174,7 +196,7 @@ class Trie {
   static String format(vector<String> values) {
     String result;
     for (size_t i = 0; i < values.size(); i++)
-      result += values.at(i) + linebreak;
+      result += values.at(i) + get_linebreak<CHAR>();
     return result;
   }
   static vector<String> split(String s, CHAR c) {
@@ -186,20 +208,9 @@ class Trie {
     v.push_back(s);
     return v;
   }
-  static String separator;
-  static String linebreak;
-  static String empty;
 };
 typedef Trie<char> SimpleTrie;
 typedef Trie<wchar_t> WideTrie;
-
-template <> string SimpleTrie::separator("\t");
-template <> string SimpleTrie::linebreak("\n");
-template <> string SimpleTrie::empty("");
-
-template <> wstring WideTrie::separator(L"\t");
-template <> wstring WideTrie::linebreak(L"\n");
-template <> wstring WideTrie::empty(L"");
 
 }
 #endif
