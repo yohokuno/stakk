@@ -17,7 +17,7 @@ class Converter {
   //lattice node
   struct Node {
     wstring yomi, word, key;
-    unsigned short lid, rid, cost;
+    unsigned int lid, rid, cost;
     unsigned int index, total, back;
     Node(vector<wstring> splited, wstring key_) {
       yomi = splited[0];
@@ -27,7 +27,17 @@ class Converter {
       word = splited[4];
       key = key_;
       index = back = 0;
-      total = INT_MAX / 2 - 1;
+      total = 0xffffff;
+    }
+    Node(wstring key_) {
+      yomi = key_;
+      word = key_;
+      lid = 0;
+      rid = 0;
+      cost = 0xffff;
+      key = key_;
+      index = back = 0;
+      total = 0xffffff;
     }
     Node() {
       word = yomi = key = L"S";
@@ -68,6 +78,14 @@ class Converter {
           lattice[index].push_back(node);
         }
       }
+      if (entries.size() == 0) {
+        wstring key;
+        key += query[0];
+        Node node(key);
+        int index = i + 1;
+        node.index = lattice[index].size();
+        lattice[index].push_back(node);
+      }
     }
     //forward search
     for (size_t i = 0; i < lattice.size(); i++) {
@@ -77,8 +95,8 @@ class Converter {
           continue;
         int best_score = -1, best_index = -1;
         for (size_t k = 0; k < lattice[index].size(); k++) {
-          unsigned short lid = lattice[index][k].rid;
-          unsigned short rid = lattice[i][j].lid;
+          unsigned int lid = lattice[index][k].rid;
+          unsigned int rid = lattice[i][j].lid;
           int transition = connection.get(lid, rid);
           int score = lattice[index][k].total + transition;
           if (best_score == -1 || score < best_score) {

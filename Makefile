@@ -3,9 +3,9 @@ CCFLAGS = -Wall -O3
 .PHONY: all test clean pack
 
 all:
+	$(CC) $(CCFLAGS) converter.cc -o converter.out
 	$(CC) $(CCFLAGS) trie.cc -o trie.out
 	$(CC) $(CCFLAGS) trie_server.cc -o trie_server.out
-	$(CC) $(CCFLAGS) converter.cc -o converter.out
 	$(CC) $(CCFLAGS) stakk.cc -o stakk.out
 	$(CC) $(CCFLAGS) stakk_server.cc -o stakk_server.out
 	$(CC) $(CCFLAGS) utrie.cc -o utrie.out
